@@ -114,6 +114,17 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                         false, null),
                 studentAttributes);
 
+    
+        System.err.println("\nThe function contains " + SessionResultsData.branchTaken.length + " branches.");
+        System.err.println("branches taken:");
+        int count = 0;
+        for (int i = 0; i < SessionResultsData.branchTaken.length; i++)
+            if (SessionResultsData.branchTaken[i]) {
+                count++;
+                System.err.print(" " + i);
+            }
+        System.err.println("\n Branch coverage: " + count + "/" + SessionResultsData.branchTaken.length);
+
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
     }
 
