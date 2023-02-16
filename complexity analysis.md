@@ -80,8 +80,16 @@ ___________________
 5.
 
 ### Function 10: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion`
-1.
-2.
-3.
-4.
-5.
+1.  lizard got a CCN of 15, **\<insert whether both group members achieved the same result\>**.
+
+2.  The method is only 41 lines of code by lizard's calculations. If not counting empty lines and comments it's more like 23 lines. 
+    Either way it's a very short method considering the high CC.
+
+3.  The purpose of the method is to determine whether changes to a question would require the program to delete the coresponding responses.
+    With this purpose in mind, it makes sence to have a high CC since the method essentially just checks a bunch of conditionals.
+
+4.  The code does not throw any exceptions.
+
+5.  The documentation and code itself is very clear about the possible outcomes since it only returns either `true` or `false` 
+    based on if we need to delete responses. There is some documentation in the form of commetns explaining the different branch-conditions in text.
+    The branches with no explanatory comments are relatively self explanatory but could probably benefit from some comments. 
