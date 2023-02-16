@@ -28,6 +28,8 @@ import teammates.common.util.StringHelper;
  */
 public class SessionResultsData extends ApiOutput {
 
+    public static boolean[] branchTaken = new boolean[36];
+
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 
     final List<QuestionOutput> questions = new ArrayList<>();
@@ -125,19 +127,68 @@ public class SessionResultsData extends ApiOutput {
 
         // process giver
         boolean isUserGiver = student.getEmail().equals(response.getGiver())
-                && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
-                || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+                && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS  
+                || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS); 
+
+
+        // ------- added for branch coverage -------
+        if (student.getEmail().equals(response.getGiver())) {
+            branchTaken[0] = true;
+            if (isUserInstructor) {
+                branchTaken[2] = true;
+                if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS)
+                    branchTaken[4] = true;
+                else 
+                    branchTaken[5] = true;
+
+                    // Requirement (branch 2 + 5): User is NOT set to "giver" if the user is an instructor 
+                    //                             BUT the feedback participant type is NOT set to "instructor"
+            }
+            else {
+                branchTaken[3] = true;
+                if (question.getGiverType() != FeedbackParticipantType.INSTRUCTORS)
+                    branchTaken[6] = true;
+
+                else 
+                    branchTaken[7] = true;
+            }
+        }
+        else 
+            branchTaken[1] = true;
+        // -----------------------------------------
+
         boolean isUserTeamGiver = question.getGiverType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getGiver());
+
+        // ------- added for branch coverage -------
+        if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
+            branchTaken[8] = true;
+            if (student.getTeam().equals(response.getGiver()))
+                branchTaken[10] = true;
+
+                // Requirement (branch 8 + 10): User is set to "team giver" if feedback participant type is set to "teams"
+                //                              AND the student's team matches the team giving the response
+
+            else 
+                branchTaken[11] = true;
+        }  
+        else 
+            branchTaken[9] = true;
+        // -----------------------------------------
+
         String giverName;
         String giverTeam = "";
         if (isUserTeamGiver) {
+            branchTaken[12] = true;
             giverName = String.format("Your Team (%s)", response.getGiver());
             giverTeam = response.getGiver();
+
         } else if (isUserGiver) {
+            branchTaken[13] = true;
             giverName = "You";
             giverTeam = student.getTeam();
         } else {
+            branchTaken[14] = true;
             // we don't want student to figure out who is who by using the hash
             giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle));
         }
@@ -146,25 +197,84 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
                 && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                 || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
+
+        // ------- added for branch coverage -------
+        if (student.getEmail().equals(response.getRecipient())) {
+            branchTaken[15] = true;
+            if (isUserInstructor) {
+                branchTaken[17] = true;
+                if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS)
+                    branchTaken[19] = true;
+                else 
+                    branchTaken[20] = true;
+            }
+            else {
+                branchTaken[18] = true;
+                if (question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS)
+                    branchTaken[21] = true;
+                else 
+                    branchTaken[22] = true;
+            }
+        }
+        else 
+            branchTaken[16] = true;
+        // -----------------------------------------
+
         boolean isUserTeamRecipient = (question.getRecipientType() == FeedbackParticipantType.TEAMS
                 || question.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION)
                 && student.getTeam().equals(response.getRecipient());
+
+        // ------- added for branch coverage -------
+        if (question.getRecipientType() == FeedbackParticipantType.TEAMS) {   
+            branchTaken[23] = true;
+            if (student.getTeam().equals(response.getRecipient()))
+                branchTaken[25] = true;
+
+                // Requirement (branch 23 + 25): User is set to "team recipient" if the feedback participant type is set to "teams" 
+                //                               AND the student's team is the same as the recipient 
+            else
+                branchTaken[26] = true;
+        }
+        else {
+            branchTaken[24] = true;
+            if (question.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
+                branchTaken[27] = true;
+                if (student.getTeam().equals(response.getRecipient()))
+                    branchTaken[29] = true;
+
+                    // Requirement (branch 27 + 29): User is set to "team recipient" if the feedback participant type is set to "teams in same section" 
+                    //                               AND the student's team is the same as the recipient 
+
+                else
+                    branchTaken[30] = true;
+            }
+            else 
+                branchTaken[28] = true;
+        }
+        // -----------------------------------------
+
+
         String recipientName;
         String recipientTeam = "";
         if (isUserRecipient) {
+            branchTaken[31] = true;
             recipientName = "You";
             recipientTeam = student.getTeam();
         } else if (isUserTeamRecipient) {
+            branchTaken[32] = true;
             recipientName = String.format("Your Team (%s)", response.getRecipient());
             recipientTeam = response.getRecipient();
         } else {
+            branchTaken[33] = true;
             // we don't want student to figure out who is who by using the hash
             recipientName = removeAnonymousHash(getRecipientNameOfResponse(response, bundle));
             if (!recipientName.contains(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT)) {
+                branchTaken[34] = true;
                 recipientTeam = bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
             }
+            else
+                branchTaken[35] = true;
         }
-
         // process comments
         List<FeedbackResponseCommentAttributes> feedbackResponseComments =
                 bundle.getResponseCommentsMap().getOrDefault(response.getId(), Collections.emptyList());

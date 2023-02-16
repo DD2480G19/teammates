@@ -216,7 +216,7 @@ What kinds of constructs does your tool support, and how accurate is its output?
 
 | # | Patch
 |---|------------------------------------------------------------------------------------------------------------------------------------------|
-| 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Branch:** [manual instrumentation, function 1](https://github.com/DD2480G19/teammates/tree/37-manual-instrumentation-function-1) <br> Git command that is used to obtain the patch (from master): `git diff 37-manual-instrumentation-function-1` |
+| 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Branch:** [manual instrumentation, function 1](https://github.com/DD2480G19/teammates/tree/37-manual-instrumentation-function-1) <br> **Show patch (from master):** `git diff origin/37-manual-instrumentation-function-1` |
 | 2 |  |
 | 3 |  |
 | 4 |  |
@@ -247,6 +247,16 @@ Report of new coverage: [link]
 Test cases added:
 git diff ...
 Number of test cases added: two per team member (P) or at least four (P+).
+
+
+| # | Patch
+|---|------------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Test cases added:** [coverage improvement, function 1](https://github.com/DD2480G19/teammates/tree/42-coverage-improvement-function-1) <br> **Show patch (from master):** `git diff origin/42-coverage-improvement-function-1` <br> Report of old coverage: [link](improved_coverage/function1/jacoco_report_old/old_coverage.md) <br> Report of new coverage: [link](improved_coverage/function1/jacoco_report_new/new_coverage.md)  |
+| 2 |  |
+| 3 |  |
+| 4 |  |
+| 5 |  |
+
 
 ## Self-assessment: Way of working
 

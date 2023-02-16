@@ -113,8 +113,122 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                         studentAttributes.getEmail(),
                         false, null),
                 studentAttributes);
+        
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
+
+        // ------------------------------------ added test: first requirement ------------------------------------
+
+        studentAttributes = typicalBundle.students.get("student6InCourse1");  // new student data added
+        loginAsStudent(studentAttributes.getGoogleId());
+
+        submissionParams = new String[] {
+            Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+            Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+            Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+
+        output = (SessionResultsData) r.getOutput();
+        expectedResults = SessionResultsData.initForStudent(
+                logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
+                        accessibleFeedbackSession.getCourseId(),
+                        studentAttributes.getEmail(),
+                        false, null),
+                studentAttributes);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
+
+        // -----------------------------------------------------------------------------------------------------------
+
+        // ------------------------------------ added test: second requirement ------------------------------------
+
+        studentAttributes = typicalBundle.students.get("student5InCourse1");  // existing student with team "Team 1.2"
+        loginAsStudent(studentAttributes.getGoogleId());
+
+        submissionParams = new String[] {
+            Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+            Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+            Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+
+        output = (SessionResultsData) r.getOutput();
+        expectedResults = SessionResultsData.initForStudent(
+                logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
+                        accessibleFeedbackSession.getCourseId(),
+                        studentAttributes.getEmail(),
+                        false, null),
+                studentAttributes);
+
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
+
+        // --------------------------------------------------------------------------------------------------------
+
+        // ------------------------------------ added test: third requirement ------------------------------------
+
+        studentAttributes = typicalBundle.students.get("student7InCourse1");  // new student data added
+        loginAsStudent(studentAttributes.getGoogleId());
+
+        submissionParams = new String[] {
+            Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+            Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+            Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+
+        output = (SessionResultsData) r.getOutput();
+        expectedResults = SessionResultsData.initForStudent(
+                logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
+                        accessibleFeedbackSession.getCourseId(),
+                        studentAttributes.getEmail(),
+                        false, null),
+                studentAttributes);
+
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
+
+        // -------------------------------------------------------------------------------------------------------
+
+        // ------------------------------------ added test: fourth requirement ------------------------------------
+
+        studentAttributes = typicalBundle.students.get("student8InCourse1");  // new student data added
+        loginAsStudent(studentAttributes.getGoogleId());
+
+        submissionParams = new String[] {
+            Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+            Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+            Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+
+        output = (SessionResultsData) r.getOutput();
+        expectedResults = SessionResultsData.initForStudent(
+                logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
+                        accessibleFeedbackSession.getCourseId(),
+                        studentAttributes.getEmail(),
+                        false, null),
+                studentAttributes);
+
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
+
+        // -------------------------------------------------------------------------------------------------------
+
+        System.err.println("\nThe function contains " + SessionResultsData.branchTaken.length + " branches.");
+        System.err.println("branches taken:");
+        int count = 0;
+        for (int i = 0; i < SessionResultsData.branchTaken.length; i++)
+            if (SessionResultsData.branchTaken[i]) {
+                count++;
+                System.err.print(" " + i);
+            }
+        System.err.println("\n Branch coverage: " + count + "/" + SessionResultsData.branchTaken.length);
     }
 
     @Override

@@ -101,6 +101,24 @@
       "email": "student2InCourse1@gmail.tmt",
       "readNotifications": {}
     },
+    "student6InCourse1": {
+      "googleId": "student6InCourse1",
+      "name": "Student 6 in course 1",
+      "email": "student6InCourse1@gmail.tmt",
+      "readNotifications": {}
+    },
+    "student7InCourse1": {
+      "googleId": "student7InCourse1",
+      "name": "Student 7 in course 1",
+      "email": "student7InCourse1@gmail.tmt",
+      "readNotifications": {}
+    },
+    "student8InCourse1": {
+      "googleId": "student6InCourse1",
+      "name": "Student 8 in course 1",
+      "email": "student8InCourse1@gmail.tmt",
+      "readNotifications": {}
+    },
     "student1InArchivedCourse": {
       "googleId": "student1InArchivedCourse",
       "name": "Student in Archived Course",
@@ -685,6 +703,33 @@
       "team": "Team 1.2",
       "section": "Section 2"
     },
+    "student6InCourse1": {    
+      "googleId": "student6InCourse1",
+      "email": "student6InCourse1@gmail.tmt",
+      "course": "idOfTypicalCourse1",
+      "name": "student6 In Course1",
+      "comments": "",
+      "team": "Instructors",
+      "section": "Section 1"
+    },
+    "student7InCourse1": {    
+      "googleId": "student7InCourse1",
+      "email": "student7InCourse1@gmail.tmt",
+      "course": "idOfTypicalCourse1",
+      "name": "student7 In Course1",
+      "comments": "",
+      "team": "Team awesome",
+      "section": "Section 1"
+    },
+    "student8InCourse1": {    
+      "googleId": "student8InCourse1",
+      "email": "student8InCourse1@gmail.tmt",
+      "course": "idOfTypicalCourse1",
+      "name": "student8 In Course1",
+      "comments": "",
+      "team": "Team 19",
+      "section": "Section 1"
+    },
     "student1InCourse2": {
       "googleId": "student1InCourse2",
       "email": "student1InCourse2@gmail.tmt",
@@ -1218,6 +1263,94 @@
         "INSTRUCTORS"
       ]
     },
+    "qn6InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "New format Text question",
+        "questionType": "TEXT"
+      },
+      "questionNumber": 6,
+      "giverType": "SELF",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn7InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "New format Text question",
+        "questionType": "TEXT"
+      },
+      "questionNumber": 7,
+      "giverType": "TEAMS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn8InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "New format Text question",
+        "questionType": "TEXT"
+      },
+      "questionNumber": 8,
+      "giverType": "SELF",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn9InSession1InCourse1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "recommendedLength": 100,
+        "questionText": "New format Text question",
+        "questionType": "TEXT"
+      },
+      "questionNumber": 9,
+      "giverType": "SELF",
+      "recipientType": "TEAMS_IN_SAME_SECTION",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
     "team.feedback": {
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
@@ -1580,6 +1713,58 @@
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Good work, keep it up!"
+      }
+    },
+    "response1ForQ6S1C1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "6",
+      "giver": "student6InCourse1@gmail.tmt",
+      "recipient": "student6InCourse1@gmail.tmt",
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I'm cool'"
+      }
+    },
+    "response1ForQ7S1C1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "7",
+      "giver": "Team 1.2",
+      "recipient": "student5InCourse1@gmail.tmt",
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I'm cool'"
+      }
+    },
+    "response1ForQ8S1C1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "8",
+      "giver": "student7InCourse1@gmail.tmt",
+      "recipient": "Team awesome",
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I'm cool'"
+      }
+    },
+    "response1ForQ9S1C1": {
+      "feedbackSessionName": "First feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "feedbackQuestionId": "9",
+      "giver": "student8InCourse1@gmail.tmt",
+      "recipient": "Team 19",
+      "giverSection": "Section 1",
+      "recipientSection": "Section 1",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "I'm cool'"
       }
     },
     "response1ForQ1S2C1": {
