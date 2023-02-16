@@ -73,11 +73,22 @@ ___________________
 5.
 
 ### Function 9: `SessionResultsData::initForStudent`
-1.
-2.
-3.
-4.
-5.
+1.  lizard calculated a CCN of 15. For the manual calculation, however, one of us got 15 and the other 16. 
+    The reason for the discrepancy was *(at least between the manual calculations)* a call to `Map::computeIfAbsent` 
+    which executes a lambda expression if a specific entry is not present in the map. It was not fully clear how to 
+    count this since it technicaly is a single function call which always executes but if we also count the code in `Collections::forEach`-calls, 
+    it's not unreasonable to count these calls as a branch as well.
+
+2.  The method is 50 lines of code and quite sparse as well. *(Counting only lines with code present, it's more like 31 lines)*
+
+3.  The purpose of the method is to collect responses of various kinds into a common class to *(probably)* send via an API to students. 
+    The high CC comes mostly from the fact that the methods needs to identify the type of responses it's parsing. 
+    These calculations could probably be refactored into separate methods to reduce the CC and make the function a little easier to understand. 
+
+4.  The method does not throw any exceptions.
+
+5.  The documentation of the method simply states: "Factory method to construct API output for student.", which gives little information about the possible branches. 
+    However when looking at what the method returns, you can see that it constructs a list of `QuestionOuput` objects which provides further details on what the method     returns. With this in mind, the code *(and branches)* is relatively self explanitory. 
 
 ### Function 10: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion`
 1.
