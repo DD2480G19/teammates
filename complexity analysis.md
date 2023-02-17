@@ -80,7 +80,7 @@ ___________________
 5.
 
 ### Function 10: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion`
-1.  lizard got a CCN of 15, **\<insert whether both group members achieved the same result\>**.
+1.  lizard got a CCN of 15, which was consistent with the manual calculations of both group memmbers.
 
 2.  The method is only 41 lines of code by lizard's calculations. If not counting empty lines and comments it's more like 23 lines. 
     Either way it's a very short method considering the high CC.
