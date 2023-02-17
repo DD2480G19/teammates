@@ -37,3 +37,5 @@ Out of these, the following five methods were chosen for manual complexity calcu
 |                    16 |  82 | FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions |                              |
 |                    15 |  50 | SessionResultsData::initForStudent                                               | Edvin: 15, Samuel: 16        |
 |                    15 |  41 | FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion                 |                              |
+|                    15 |  50 | SessionResultsData::initForStudent                                               |                              |
+|                    15 |  41 | FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion                 | Samuel: 15, Peter: 15           |
