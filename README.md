@@ -24,6 +24,7 @@ Out of these, the following five methods were chosen for manual complexity calcu
 |-----------------------|-----|----------------------------------------------------------------------------------|------------------------------|
 |                    17 |  68 | SessionResultsData::buildSingleResponseForStudent                                | Name: calc, Name2: calc2     |
 |                    17 |  52 | FeedbackResponseCommentsLogic::isFeedbackParticipantNameVisibleToUser            |                              |
-|                    16 |  82 | FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions |                              |
+|                    16 |  82 | FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions | 
+Peter: 16, Linea: 16                             |
 |                    15 |  50 | SessionResultsData::initForStudent                                               |                              |
 |                    15 |  41 | FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion                 |                              |
