@@ -65,15 +65,23 @@ public class SessionResultsData extends ApiOutput {
     }
 
     /**
+     * Print the id of a branch point to stdout.
+     * @param id
+     */
+    private static void print(int id) {
+        System.out.println(String.format("Reached: %d", id));
+    }
+
+    /**
      * Factory method to construct API output for student.
      */
     public static SessionResultsData initForStudent(SessionResultsBundle bundle, StudentAttributes student) {
         SessionResultsData sessionResultsData = new SessionResultsData();
-
+        print(1);
         Map<String, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMap();
-
         questionsWithResponses.forEach((questionId, responses) -> {
+            print(2);
             FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(questionId);
             FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
             QuestionOutput qnOutput = new QuestionOutput(question,
@@ -81,34 +89,106 @@ public class SessionResultsData extends ApiOutput {
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
 
             if (questionDetails.isIndividualResponsesShownToStudents()) {
+                print(3);
+                boolean entered = false;
                 for (FeedbackResponseAttributes response : responses) {
+                    entered = true;
+                    print(4);
                     boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeam());
 
-                    boolean isUserGiver = student.getEmail().equals(response.getGiver())
-                            && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
-                            || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
-                    boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
-                            && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
-                            || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
+                    // boolean isUserGiver = student.getEmail().equals(response.getGiver())
+                    //         && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                    //         || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+
+                    boolean isUserGiver = false;
+                    if (student.getEmail().equals(response.getGiver())) {
+                        print(5);
+                        if (isUserInstructor) {
+                            print(6);
+                            if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS) {
+                                print(7);
+                                isUserGiver = true;
+                            } else {
+                                print(8);
+                            }
+                        } else {
+                            print(9);
+                            if (question.getGiverType() != FeedbackParticipantType.INSTRUCTORS) {
+                                print(10);
+                                isUserGiver = true;
+                            } else {
+                                print(11);
+                            }
+                        }
+                    } else {
+                        print(12);
+                    }
+
+                    // boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
+                    //         && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                    //         || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
+                    boolean isUserRecipient = false;
+                    if (student.getEmail().equals(response.getRecipient())) {
+                        print(13);
+                        if (isUserInstructor) {
+                            print(14);
+                            if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
+                                print(15);
+                                isUserRecipient = true;
+                            } else {
+                                print(16);
+                            }
+                        } else {
+                            print(17);
+                            if (question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS) {
+                                print(18);
+                                isUserRecipient = true;
+                            } else {
+                                print(19);
+                            }
+                        }
+                    }
+
                     ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
 
                     if (isUserRecipient) {
+                        print(20);
                         qnOutput.responsesToSelf.add(responseOutput);
+                    } else {
+                        print(21);
                     }
 
                     if (isUserGiver) {
+                        print(22);
                         qnOutput.responsesFromSelf.add(responseOutput);
+                    } else {
+                        print(23);
                     }
 
-                    if (!isUserRecipient && !isUserGiver) {
-                        // we don't need care about the keys of the map here
-                        // as only the values of the map will be used
-                        otherResponsesMap.computeIfAbsent(response.getRecipient(), k -> new ArrayList<>())
-                                .add(responseOutput);
+                    if (!isUserRecipient) {
+                        print(24);
+                        if (!isUserGiver) {
+                            print(25);
+                            // we don't need care about the keys of the map here
+                            // as only the values of the map will be used
+                            otherResponsesMap.computeIfAbsent(response.getRecipient(), k -> {
+                                print(26);
+                                return new ArrayList<>();
+                            }).add(responseOutput);
+                        } else {
+                            print(27);
+                        }
+                    } else {
+                        print(28);
                     }
 
                     qnOutput.allResponses.add(responseOutput);
                 }
+                if (!entered) {
+                    print(29);
+                }
+            } else {
+                print(30);
             }
             qnOutput.otherResponses.addAll(otherResponsesMap.values());
 
