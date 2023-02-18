@@ -527,7 +527,8 @@ task componentTests(type: Test) {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
-        events "passed"
+        outputs.upToDateWhen {false}
+        showStandardStreams = true
     }
 }
 
