@@ -108,12 +108,28 @@ The patch is probably too long to be copied here, so please add the git command 
 git diff ...
 What kinds of constructs does your tool support, and how accurate is its output?
 
+| # | Patch
+|---|------------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Branch:** [manual instrumentation, function 1](https://github.com/DD2480G19/teammates/tree/37-manual-instrumentation-function-1) <br> Git command that is used to obtain the patch (from master): `git diff 37-manual-instrumentation-function-1` |
+| 2 |  |
+| 3 |  |
+| 4 |  |
+| 5 |  |
+
 ### Evaluation
 
 >**TODO:**
 >1. How detailed is your coverage measurement?
 >2. What are the limitations of your own tool?
 >3. Are the results of your tool consistent with existing coverage tools?
+
+| # | Evaluation
+|---|------------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br><br> The tool takes advantage of _lazy evaluation_ for compound conditions (conjunctions) and detects overlapping branches (e.g. first term in SessionResultsData.java:90 and :91). Because of this, the number of branches differs from the results of the existing tool `Jacoco`. However, the coverage of the two tools is almost the same: 44% vs. Jacoco's 50%. Regarding limitations, if more tests were to be added to the project, the calls for outputting the coverage results would have to be placed at the end of the last tests, to make sure that every unit test is included. There are no ternary operators or exceptions, hence, the tool does not consider this.                   |
+| 2 |  |
+| 3 |  |
+| 4 |  |
+| 5 |  |
 
 ## Coverage improvement
 <img src="https://media.tenor.com/LqG262WEznAAAAAC/that-is-progress-dan-levy.gif">
