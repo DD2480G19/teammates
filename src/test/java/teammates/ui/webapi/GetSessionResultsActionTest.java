@@ -116,16 +116,11 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
-        ______TS("typical: instructor accesses results of his/her course as a student");
+        logoutUser();
 
-        studentAttributes = StudentAttributes.builder(
-                instructorAttributes.getCourseId(), 
-                instructorAttributes.getEmail())
-            .withTeamName(Const.USER_TEAM_FOR_INSTRUCTOR)
-            .withName(instructorAttributes.getName())
-            .withGoogleId(instructorAttributes.getGoogleId())
-            .withSectionName("Section 1")
-            .build();
+        ______TS("typical: instructor accesses results adressed to instructors");
+        accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
+        instructorAttributes = typicalBundle.instructors.get("instructor1OfCourse2");
         
         loginAsInstructor(instructorAttributes.getGoogleId());
 
@@ -138,22 +133,17 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         a = getAction(submissionParams);
         r = getJsonResult(a);
 
-        output = (SessionResultsData) r.getOutput();
+        studentAttributes = StudentAttributes.builder(
+                instructorAttributes.getCourseId(), 
+                instructorAttributes.getEmail())
+            .withTeamName(Const.USER_TEAM_FOR_INSTRUCTOR)
+            .build();
 
         var bundle = logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
             accessibleFeedbackSession.getCourseId(),
             studentAttributes.getEmail(),
             true, null);
-
-        System.out.println(bundle.getQuestionResponseMap());
-        bundle.getQuestionResponseMap().forEach((k, v) -> {
-            System.out.println(k);
-            System.out.println(v);
-        });
-
         expectedResults = SessionResultsData.initForStudent(bundle, studentAttributes);
-
-
         assertTrue(isSessionResultsDataEqual(expectedResults, output));        
     }
 
