@@ -215,7 +215,7 @@ What kinds of constructs does your tool support, and how accurate is its output?
 | 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Branch:** [manual instrumentation, function 1](https://github.com/DD2480G19/teammates/tree/37-manual-instrumentation-function-1) <br> Git command that is used to obtain the patch (from master): `git diff 37-manual-instrumentation-function-1` |
 | 2 |  |
 | 3 |  |
-| 4 |  |
+| 4 | **Function**: `SessionResultData::initForStudent` <br> **Branch:** [manual instrumentation, function 4](https://github.com/DD2480G19/teammates/tree/40-manual-instrumentation-function-4) <br> **Show patch (from master):** `git diff origin/40-manual-instrumentation-function-4 src/main/java/teammates/ui/output/SessionResultsData.java` |
 | 5 |  |
 
 ### Evaluation
@@ -230,7 +230,7 @@ What kinds of constructs does your tool support, and how accurate is its output?
 | 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br><br> The tool takes advantage of _lazy evaluation_ for compound conditions (conjunctions) and detects overlapping branches (e.g. first term in SessionResultsData.java:90 and :91). Because of this, the number of branches differs from the results of the existing tool `Jacoco`. However, the coverage of the two tools is almost the same: 44% vs. Jacoco's 50%. Regarding limitations, if more tests were to be added to the project, the calls for outputting the coverage results would have to be placed at the end of the last tests, to make sure that every unit test is included. There are no ternary operators or exceptions, hence, the tool does not consider this.                   |
 | 2 |  |
 | 3 |  |
-| 4 |  |
+| 4 | **Function**: `SessionResultData::initForStudent` <br><br> To calculate the coverage, all boolean expressions were firstly expanded to nested if/else statements to get all possible branches. For if statements without an else clause, a new one was added to check whether the negative case is tested as well. For each branch point in the modified source file, a `println` call was added to print `Reached: {id}` to `stdout`. This approach makes it very cumbersome if we want to modify the code itself. However, when adding new testcases, there should not be a need to change the instrumentation. <br><br> To analyze the results the log output was piped to a separate file and then collected with grep. <br><br> **Results:**<br>Out of 30 points (1-30), the tests reached the following points: <br>`[1, 2, 3, 4, 5, 9, 10, 12, 13, 17, 18, 20, 21, 22, 23, 24, 25, 26, 28]`<br><br> This means that the tests miss points 6, 7, 8, 11, 14, 15, 16, 19, 27, 29, and 30. <br><br> The percentual coverage is ~0.68 which is relatively similar to the results from JaCoCo which gets a branch coverage of 0.62. |
 | 5 |  |
 
 ## Coverage improvement
