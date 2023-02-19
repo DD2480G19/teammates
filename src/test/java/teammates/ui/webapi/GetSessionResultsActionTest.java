@@ -50,7 +50,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         JsonResult r = getJsonResult(a);
 
         SessionResultsData output = (SessionResultsData) r.getOutput();
-
+        
         SessionResultsData expectedResults = SessionResultsData.initForInstructor(
                 logic.getSessionResultsForCourse(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
@@ -115,6 +115,46 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 studentAttributes);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
+
+        ______TS("typical: instructor accesses results of his/her course as a student");
+
+        studentAttributes = StudentAttributes.builder(
+                instructorAttributes.getCourseId(), 
+                instructorAttributes.getEmail())
+            .withTeamName(Const.USER_TEAM_FOR_INSTRUCTOR)
+            .withName(instructorAttributes.getName())
+            .withGoogleId(instructorAttributes.getGoogleId())
+            .withSectionName("Section 1")
+            .build();
+        
+        loginAsInstructor(instructorAttributes.getGoogleId());
+
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+
+        output = (SessionResultsData) r.getOutput();
+
+        var bundle = logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
+            accessibleFeedbackSession.getCourseId(),
+            studentAttributes.getEmail(),
+            true, null);
+
+        System.out.println(bundle.getQuestionResponseMap());
+        bundle.getQuestionResponseMap().forEach((k, v) -> {
+            System.out.println(k);
+            System.out.println(v);
+        });
+
+        expectedResults = SessionResultsData.initForStudent(bundle, studentAttributes);
+
+
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));        
     }
 
     @Override
