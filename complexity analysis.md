@@ -58,7 +58,7 @@ ___________________
 
 
 ### Function 7: `FeedbackResponseCommentsLogic::isFeedbackParticipantNameVisibleToUser`
-1. Both of the people that worked on it got the same result: CC=16. We used lizard to calculate the CC of the function, and same result was shown. 
+1. Both of the people that worked on it got the same result: CC=17. We used lizard to calculate the CC of the function, and same result was shown. 
 2. The method has 52 LOC, which is not that bad as most of the lines come for the switch statement. It has 17 CC, which is not that bad considered to what the function does. The high CC is governed by the possible choices in the switch statement.
 3. As it's name states, the function evaluated if the feedback participant name is visible to the user. It is indeed related to the high CC as the return value depends on the type of the participant, and there is at least 6 types from what I can see in the code.
 4. There is no exception handling in the method.
