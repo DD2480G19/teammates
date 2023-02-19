@@ -129,11 +129,11 @@ Out of these, the following five methods were chosen for manual complexity calcu
 5.
 
 #### Function 6: `SessionResultsData::buildSingleResponseForStudent`
-1.
-2.
-3.
-4.
-5.
+1. lizard got a CCN of 17, which was consistent with the manual calculations of both group members. 
+2. The method has 59 LOC, but much of this is for increased readability: For example, 14 of these rows (the `return` expression) could have easily been compressed into ~5 LOC, but this would have made the code harder to read. Taking this into account, the NLOC is not particularly high.
+3. The purpose of the function is to build a response for a student in the API output format for session results/statistics. There is much information to be included, which causes the high CCN. Although, this method could have been split into several methods (i.e., the "process giver" and "process recipient" sections could be separate methods), which would reduce the CCN to less than half in the largest sub-method.
+4. The method does not include any exceptions.
+5. There is some documentation of the different possible outcomes of the branches, but mostly none. One could understand through the names of variables, but due to nested conditions etc., documentation for an overview of each section would make it easier and faster to understand the code.
 
 
 #### Function 7: `FeedbackResponseCommentsLogic::isFeedbackParticipantNameVisibleToUser`
