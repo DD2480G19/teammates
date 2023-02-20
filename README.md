@@ -248,7 +248,7 @@ Number of test cases added: two per team member (P) or at least four (P+).
 | # | Patch
 |---|------------------------------------------------------------------------------------------------------------------------------------------|
 | 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Test cases added:** [coverage improvement, function 1](https://github.com/DD2480G19/teammates/tree/42-coverage-improvement-function-1) <br> **Show patch (from master):** `git diff origin/42-coverage-improvement-function-1` <br> Report of old coverage: [link](improved_coverage/function1/jacoco_report_old/old_coverage.md) <br> Report of new coverage: [link](improved_coverage/function1/jacoco_report_new/new_coverage.md)  |
-| 2 |  |
+| 2 | **Function**: `GetFeedbackSessionLogsAction::execute` <br> **Test cases added:** [coverage improvement, function 2](https://github.com/DD2480G19/teammates/tree/43-coverage-improvement-function-2) <br> **Show patch (from master):** `git diff origin/43-coverage-improvement-function-2` <br> Report of old coverage: [link](improved_coverage_function_2/old_coverage.png) <br> Report of new coverage: [link](improved_coverage_function_2/new_coverage.png) |
 | 3 |  |
 | 4 |  |
 | 5 |  |
