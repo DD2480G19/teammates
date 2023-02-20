@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/DD2480G19/teammates/commits/master">
-        <img alt="Last Commit" src="https://img.shields.io/github/last-commit/simonsimon006/kth_a2_continuous_integration.svg?style=flat-square&logo=github&logoColor=white">
+        <img alt="Last Commit" src="https://img.shields.io/github/last-commit/DD2480G19/teammates.svg?style=flat-square&logo=github&logoColor=white">
     </a>
     <a href="https://github.com/DD2480G19/teammates/issues">
         <img alt="Issues" src="https://img.shields.io/github/issues-raw/DD2480G19/teammates.svg?style=flat-square&logo=github&logoColor=white">
