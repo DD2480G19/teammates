@@ -23,7 +23,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
 
     /**
      * Provides updates of responses for 'rank recipient question', such that the ranks in the responses are consistent.
-     * (Branch coverage added through storing booleans in REACHED_BRANCHES.)
+     * (Branch coverage added through storing booleans in REACHED_BRANCHES. This gets printed in FeedbackResponsesLogicTest.)
      * @param responses responses to one feedback question, from one giver
      * @param maxRank the maximum rank in each response
      * @return a list of {@code UpdateOptions} that contains the updates for the responses, if any
