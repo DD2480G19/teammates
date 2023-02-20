@@ -118,7 +118,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         logoutUser();
 
-        ______TS("typical: instructor accesses results adressed to instructors");
+        ______TS("typical: instructor accesses answers they sent to students");
         accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
         instructorAttributes = typicalBundle.instructors.get("instructor1OfCourse2");
         
@@ -132,19 +132,17 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         a = getAction(submissionParams);
         r = getJsonResult(a);
+        output = (SessionResultsData) r.getOutput();
 
-        studentAttributes = StudentAttributes.builder(
-                instructorAttributes.getCourseId(), 
-                instructorAttributes.getEmail())
-            .withTeamName(Const.USER_TEAM_FOR_INSTRUCTOR)
-            .build();
-
-        var bundle = logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
-            accessibleFeedbackSession.getCourseId(),
-            studentAttributes.getEmail(),
-            true, null);
-        expectedResults = SessionResultsData.initForStudent(bundle, studentAttributes);
-        assertTrue(isSessionResultsDataEqual(expectedResults, output));        
+        var dbResponse = typicalBundle.feedbackResponses.get("response1ForQ1S1C2");
+        assertEquals(1, output.getQuestions().size());
+        var actualResponses = output.getQuestions().get(0).getAllResponses();
+        assertEquals(1, actualResponses.size());
+        var response = actualResponses.get(0);
+        assertEquals("You", response.getGiver());
+        assertEquals(Const.USER_TEAM_FOR_INSTRUCTOR, response.getGiverTeam());
+        assertEquals(dbResponse.getRecipient(), response.getRecipient());
+        assertEquals(dbResponse.getResponseDetails().getJsonString(), response.getResponseDetails().getJsonString());
     }
 
     @Override
