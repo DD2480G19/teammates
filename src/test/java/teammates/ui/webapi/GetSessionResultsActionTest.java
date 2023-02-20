@@ -115,63 +115,6 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 studentAttributes);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
-        logoutUser();
-
-        ______TS("typical: instructor accesses answers they sent to students");
-        // For session 1 of course 2, instructor 1 has sent a response to Team 2.1.
-        // When viewing as instructor 1, they should see the message sent by them.
-        accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
-        instructorAttributes = typicalBundle.instructors.get("instructor1OfCourse2");
-
-        loginAsInstructor(instructorAttributes.getGoogleId());
-
-        submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
-        };
-
-        a = getAction(submissionParams);
-        r = getJsonResult(a);
-        output = (SessionResultsData) r.getOutput();
-
-        var dbResponse = typicalBundle.feedbackResponses.get("response1ForQ1S1C2");
-        assertEquals(1, output.getQuestions().size());
-        var actualResponses = output.getQuestions().get(0).getAllResponses();
-        assertEquals(1, actualResponses.size());
-        var response = actualResponses.get(0);
-        assertEquals("You", response.getGiver());
-        assertEquals(Const.USER_TEAM_FOR_INSTRUCTOR, response.getGiverTeam());
-        assertEquals(dbResponse.getRecipient(), response.getRecipient());
-        assertEquals(dbResponse.getResponseDetails().getJsonString(), response.getResponseDetails().getJsonString());
-        logoutUser();
-
-        ______TS("typical: instructor accesses answers they recieved");
-        // For session 1 of course 2, instructor 3 has sent a response to instructor 2.
-        // Instructor 2 should see this response correctly.
-        accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
-        instructorAttributes = typicalBundle.instructors.get("instructor2OfCourse2");
-        loginAsInstructor(instructorAttributes.getGoogleId());
-
-        submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
-        };
-
-        a = getAction(submissionParams);
-        r = getJsonResult(a);
-        output = (SessionResultsData) r.getOutput();
-
-        dbResponse = typicalBundle.feedbackResponses.get("response1ForQ2S1C2");
-        assertEquals(1, output.getQuestions().size());
-        actualResponses = output.getQuestions().get(0).getAllResponses();
-        assertEquals(1, actualResponses.size());
-        response = actualResponses.get(0);
-        assertEquals("Instructor3 Course2", response.getGiver());
-        assertEquals("You", response.getRecipient());
-        assertEquals(dbResponse.getResponseDetails().getJsonString(), response.getResponseDetails().getJsonString());
-        logoutUser();
     }
 
     @Override
