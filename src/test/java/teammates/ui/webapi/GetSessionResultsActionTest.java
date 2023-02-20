@@ -115,10 +115,13 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 studentAttributes);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
-
         logoutUser();
 
         ______TS("typical: instructor accesses answers they sent to students");
+        /**
+         * For session 1 of course 2, instructor 1 has sent a response to Team 2.1.
+         * When viewing as instructor 1, they should see the message sent by them. 
+         */
         accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
         instructorAttributes = typicalBundle.instructors.get("instructor1OfCourse2");
         
@@ -146,6 +149,10 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         logoutUser();
 
         ______TS("typical: instructor accesses answers they recieved");
+        /**
+         * For session 1 of course 2, instructor 3 has sent a response to instructor 2.
+         * Instructor 2 should see this response correctly.
+         */
         accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
         instructorAttributes = typicalBundle.instructors.get("instructor2OfCourse2");
         loginAsInstructor(instructorAttributes.getGoogleId());
