@@ -124,28 +124,25 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeam());
 
         // process giver
-        boolean isUserGiver = student.getEmail().equals(response.getGiver())
-                && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
-                || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+
+        // refactoring
+        boolean isUserGiver = isUserGiver(student, question, response, isUserInstructor);
+
         boolean isUserTeamGiver = question.getGiverType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getGiver());
-        String giverName;
+
+        String giverName = "";
         String giverTeam = "";
-        if (isUserTeamGiver) {
-            giverName = String.format("Your Team (%s)", response.getGiver());
-            giverTeam = response.getGiver();
-        } else if (isUserGiver) {
-            giverName = "You";
-            giverTeam = student.getTeam();
-        } else {
-            // we don't want student to figure out who is who by using the hash
-            giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle));
-        }
+
+        // refactoring
+        setGiverNameAndTeam(giverName, giverTeam, isUserTeamGiver, isUserGiver, student, response, bundle);
 
         // process recipient
         boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
                 && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                 || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
+
+
         boolean isUserTeamRecipient = (question.getRecipientType() == FeedbackParticipantType.TEAMS
                 || question.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION)
                 && student.getTeam().equals(response.getRecipient());
@@ -185,6 +182,27 @@ public class SessionResultsData extends ApiOutput {
                 .withParticipantComment(comments.poll())
                 .withInstructorComments(new ArrayList<>(comments))
                 .build();
+    }
+
+    // refactoring
+    private static boolean isUserGiver(StudentAttributes student, FeedbackQuestionAttributes question, FeedbackResponseAttributes response, boolean isUserInstructor) {
+        return student.getEmail().equals(response.getGiver())
+        && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+        || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+    }
+
+    // refactoring
+    private static void setGiverNameAndTeam(String giverName, String giverTeam, boolean isUserTeamGiver, boolean isUserGiver, StudentAttributes student, FeedbackResponseAttributes response, SessionResultsBundle bundle) {
+        if (isUserTeamGiver) {
+            giverName = String.format("Your Team (%s)", response.getGiver());
+            giverTeam = response.getGiver();
+        } else if (isUserGiver) {
+            giverName = "You";
+            giverTeam = student.getTeam();
+        } else {
+            // we don't want student to figure out who is who by using the hash
+            giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle));
+        }
     }
 
     private static String removeAnonymousHash(String identifier) {
