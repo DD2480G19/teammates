@@ -64,6 +64,20 @@ public class SessionResultsData extends ApiOutput {
         return sessionResultsData;
     }
 
+    private static boolean isUserGiver(StudentAttributes student, boolean isUserInstructor,
+            FeedbackResponseAttributes response, FeedbackQuestionAttributes question) {
+        return student.getEmail().equals(response.getGiver())
+                    && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                    || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+    }
+
+    private static boolean isUserRecipient(StudentAttributes student, boolean isUserInstructor,
+            FeedbackResponseAttributes response, FeedbackQuestionAttributes question) {
+        return student.getEmail().equals(response.getRecipient())
+                    && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                    || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
+    }
+
     /**
      * Factory method to construct API output for student.
      */
@@ -84,12 +98,8 @@ public class SessionResultsData extends ApiOutput {
                 for (FeedbackResponseAttributes response : responses) {
                     boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeam());
 
-                    boolean isUserGiver = student.getEmail().equals(response.getGiver())
-                            && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
-                            || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
-                    boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
-                            && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
-                            || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
+                    boolean isUserGiver = isUserGiver(student, isUserInstructor, response, question);
+                    boolean isUserRecipient = isUserRecipient(student, isUserInstructor, response, question);
                     ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
 
                     if (isUserRecipient) {
