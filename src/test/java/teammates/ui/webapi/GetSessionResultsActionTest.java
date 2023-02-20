@@ -143,6 +143,32 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         assertEquals(Const.USER_TEAM_FOR_INSTRUCTOR, response.getGiverTeam());
         assertEquals(dbResponse.getRecipient(), response.getRecipient());
         assertEquals(dbResponse.getResponseDetails().getJsonString(), response.getResponseDetails().getJsonString());
+        logoutUser();
+
+        ______TS("typical: instructor accesses answers they recieved");
+        accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
+        instructorAttributes = typicalBundle.instructors.get("instructor2OfCourse2");
+        loginAsInstructor(instructorAttributes.getGoogleId());
+
+        submissionParams = new String[] {
+            Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
+            Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+            Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
+        };
+
+        a = getAction(submissionParams);
+        r = getJsonResult(a);
+        output = (SessionResultsData) r.getOutput();
+
+        dbResponse = typicalBundle.feedbackResponses.get("response1ForQ2S1C2");
+        assertEquals(1, output.getQuestions().size());
+        actualResponses = output.getQuestions().get(0).getAllResponses();
+        assertEquals(1, actualResponses.size());
+        response = actualResponses.get(0);
+        assertEquals("Instructor3 Course2", response.getGiver());
+        assertEquals("You", response.getRecipient());
+        assertEquals(dbResponse.getResponseDetails().getJsonString(), response.getResponseDetails().getJsonString());
+        logoutUser();
     }
 
     @Override
