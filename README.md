@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/DD2480G19/teammates/commits/master">
-        <img alt="Last Commit" src="https://img.shields.io/github/last-commit/simonsimon006/kth_a2_continuous_integration.svg?style=flat-square&logo=github&logoColor=white">
+        <img alt="Last Commit" src="https://img.shields.io/github/last-commit/DD2480G19/teammates.svg?style=flat-square&logo=github&logoColor=white">
     </a>
     <a href="https://github.com/DD2480G19/teammates/issues">
         <img alt="Issues" src="https://img.shields.io/github/issues-raw/DD2480G19/teammates.svg?style=flat-square&logo=github&logoColor=white">
@@ -118,11 +118,11 @@ Out of these, the following five methods were chosen for manual complexity calcu
 5. This function is well documented in its different paths. Almost all if-statements has a comment explaining the branching.
 
 #### Function 5: `GetFeedbackSessionLogsAction::execute`
-1.
-2.
-3.
-4.
-5.
+1. lizard got a CCN of 17. This method's complexity was not calculated by hand.
+2. The method has 71 LOC, which is related to the high CC. 
+3. The purpose of the method is to get feedback session logs/json result data. There is much to be included/taken into account (e.g., when information isn't found), which relates to the high CC.
+4. The method uses many exception throws, but these does not seem to be counted as exit points.
+5. There is some documentation of the different possible outcomes of the branches, but only in certain places. It would be of benefit if it was clearer, especially since the code is a bit messy.
 
 #### Function 6: `SessionResultsData::buildSingleResponseForStudent`
 1. lizard got a CCN of 17, which was consistent with the manual calculations of both group members. 
@@ -212,10 +212,10 @@ What kinds of constructs does your tool support, and how accurate is its output?
 
 | # | Patch
 |---|------------------------------------------------------------------------------------------------------------------------------------------|
-| 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Branch:** [manual instrumentation, function 1](https://github.com/DD2480G19/teammates/tree/37-manual-instrumentation-function-1) <br> Git command that is used to obtain the patch (from master): `git diff 37-manual-instrumentation-function-1` |
+| 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Branch:** [manual instrumentation, function 1](https://github.com/DD2480G19/teammates/tree/37-manual-instrumentation-function-1) <br> **Show patch (from master):** `git diff origin/37-manual-instrumentation-function-1` |
 | 2 |  |
 | 3 | **Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br> **Branch**: [manual instrumentation, function 3]() <br> **Git command that is used to obtain the patch (from master)**: [command] |
-| 4 |  |
+| 4 | **Function**: `SessionResultData::initForStudent` <br> **Branch:** [manual instrumentation, function 4](https://github.com/DD2480G19/teammates/tree/40-manual-instrumentation-function-4) <br> **Show patch (from master):** `git diff origin/40-manual-instrumentation-function-4 src/main/java/teammates/ui/output/SessionResultsData.java` |
 | 5 |  |
 
 ### Evaluation
@@ -230,7 +230,7 @@ What kinds of constructs does your tool support, and how accurate is its output?
 | 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br><br> The tool takes advantage of _lazy evaluation_ for compound conditions (conjunctions) and detects overlapping branches (e.g. first term in SessionResultsData.java:90 and :91). Because of this, the number of branches differs from the results of the existing tool `Jacoco`. However, the coverage of the two tools is almost the same: 44% vs. Jacoco's 50%. Regarding limitations, if more tests were to be added to the project, the calls for outputting the coverage results would have to be placed at the end of the last tests, to make sure that every unit test is included. There are no ternary operators or exceptions, hence, the tool does not consider this.                   |
 | 2 |  |
 | 3 | **Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br><br> |
-| 4 |  |
+| 4 | **Function**: `SessionResultData::initForStudent` <br><br> To calculate the coverage, all boolean expressions were firstly expanded to nested if/else statements to get all possible branches. For if statements without an else clause, a new one was added to check whether the negative case is tested as well. For each branch point in the modified source file, a `println` call was added to print `Reached: {id}` to `stdout`. This approach makes it very cumbersome if we want to modify the code itself. However, when adding new testcases, there should not be a need to change the instrumentation. <br><br> To analyze the results the log output was piped to a separate file and then collected with grep. <br><br> **Results:**<br>Out of 30 points (1-30), the tests reached the following points: <br>`[1, 2, 3, 4, 5, 9, 10, 12, 13, 17, 18, 20, 21, 22, 23, 24, 25, 26, 28]`<br><br> This means that the tests miss points 6, 7, 8, 11, 14, 15, 16, 19, 27, 29, and 30. <br><br> The percentual coverage is ~0.68 which is relatively similar to the results from JaCoCo which gets a branch coverage of 0.62. |
 | 5 |  |
 
 ## Coverage improvement
@@ -243,6 +243,16 @@ Report of new coverage: [link]
 Test cases added:
 git diff ...
 Number of test cases added: two per team member (P) or at least four (P+).
+
+
+| # | Patch
+|---|------------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Test cases added:** [coverage improvement, function 1](https://github.com/DD2480G19/teammates/tree/42-coverage-improvement-function-1) <br> **Show patch (from master):** `git diff origin/42-coverage-improvement-function-1` <br> Report of old coverage: [link](improved_coverage/function1/jacoco_report_old/old_coverage.md) <br> Report of new coverage: [link](improved_coverage/function1/jacoco_report_new/new_coverage.md)  |
+| 2 |  |
+| 3 |  |
+| 4 |  |
+| 5 |  |
+
 
 ## Self-assessment: Way of working
 
