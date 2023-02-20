@@ -118,11 +118,11 @@ Out of these, the following five methods were chosen for manual complexity calcu
 5. This function is well documented in its different paths. Almost all if-statements has a comment explaining the branching.
 
 #### Function 5: `GetFeedbackSessionLogsAction::execute`
-1.
-2.
-3.
-4.
-5.
+1. lizard got a CCN of 17. This method's complexity was not calculated by hand.
+2. The method has 71 LOC, which is related to the high CC. 
+3. The purpose of the method is to get feedback session logs/json result data. There is much to be included/taken into account (e.g., when information isn't found), which relates to the high CC.
+4. The method uses many exception throws, but these does not seem to be counted as exit points.
+5. There is some documentation of the different possible outcomes of the branches, but only in certain places. It would be of benefit if it was clearer, especially since the code is a bit messy.
 
 #### Function 6: `SessionResultsData::buildSingleResponseForStudent`
 1. lizard got a CCN of 17, which was consistent with the manual calculations of both group members. 
