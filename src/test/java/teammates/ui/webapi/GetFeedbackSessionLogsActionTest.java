@@ -157,6 +157,19 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
         getJsonResult(getAction(paramsSuccessful2));
+
+        int count = 0;
+        System.out.println("\nThe function contains " + GetFeedbackSessionLogsAction.branchTaken.length + " branches.");
+        System.out.println("branches taken:");
+
+        for (int i = 0; i < GetFeedbackSessionLogsAction.branchTaken.length; i++){
+             if (GetFeedbackSessionLogsAction.branchTaken[i]) {
+                 System.out.print(" " + i);
+                 count++;
+             }
+        }
+        
+        System.out.println("\n Branch coverage: " + count + "/" + GetFeedbackSessionLogsAction.branchTaken.length);
         // No need to check output again here, it will be exactly the same as the previous case
 
         // TODO: if we restrict the range from start to end time, it should be tested here as well
