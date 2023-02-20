@@ -52,7 +52,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private int maxSelectableChoices;
     private int minSelectableChoices;
 
-    private HashSet<Integer> branchCover;
+    private final HashSet<Integer> branchCover;
 
     public FeedbackMsqQuestionDetails() {
         this(null);
@@ -105,6 +105,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         if (this.maxSelectableChoices == Const.POINTS_NO_VALUE){
             // Delete responses if max selectable restriction is newly added
+            branchCover.add(24);
             if(newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE){
                 branchCover.add(8);
                 return true;
@@ -118,6 +119,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         if (this.minSelectableChoices == Const.POINTS_NO_VALUE){
             // Delete responses if min selectable restriction is newly added
+            branchCover.add(25);
             if(newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE){
                 branchCover.add(11);
                 return true;
@@ -128,7 +130,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         if (this.minSelectableChoices != Const.POINTS_NO_VALUE){
+            branchCover.add(26);
             if(newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE){
+                branchCover.add(27);
                 if(this.minSelectableChoices < newMsqDetails.minSelectableChoices){
                     branchCover.add(14);
                     // A more strict min selectable choices restriction is placed
@@ -144,7 +148,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         if (this.maxSelectableChoices != Const.POINTS_NO_VALUE){
+            branchCover.add(28);
             if(newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE){
+                branchCover.add(29);
                 if(this.maxSelectableChoices > newMsqDetails.maxSelectableChoices){
                     branchCover.add(18);
                 // A more strict max selectable choices restriction is placed
