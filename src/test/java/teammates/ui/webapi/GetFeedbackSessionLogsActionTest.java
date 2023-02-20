@@ -112,6 +112,46 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime)
         );
 
+        ______TS("Failure case: Feedback session not found");
+        String[] paramsInvalid10 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "fake-session-id",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+        };
+        verifyEntityNotFound(paramsInvalid10);
+
+        ______TS("Failure case: Invalid log type");
+        String[] paramsInvalid11 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, "fake-log-type",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+        };
+        verifyHttpParameterFailure(paramsInvalid11);
+
+        ______TS("Failure case: start time before end time");
+        String[] paramsInvalid12 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(startTime),
+        };
+        verifyHttpParameterFailure(paramsInvalid12);
+
+        ______TS("Failure case: Feedback session not found, even though log is also invalid");
+        String[] paramsInvalid13 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student1Email,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "fake-session-id",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, "fake-log-type",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+        };
+        verifyEntityNotFound(paramsInvalid13);
+
         ______TS("Success case: should group by feedback session");
         String[] paramsSuccessful1 = {
                 Const.ParamsNames.COURSE_ID, courseId,
