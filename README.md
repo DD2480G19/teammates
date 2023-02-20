@@ -192,6 +192,38 @@ Estimated impact of refactoring (lower CC, but other drawbacks?).
 Carried out refactoring (optional, P+):
 git diff ...
 
+#### Function 1 : `SessionResultsData::buildSingleResponseForStudent`
+
+**Refactoring plan:**
+
+There are two parts of the code that easily can be put into other separate methods. 
+
+First, a large compound predicate:
+```java
+127: boolean isUserGiver = student.getEmail().equals(response.getGiver())  
+128:            && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS  
+129:            || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+``` 
+Second, a decision with three different outcomes:
+```java
+138: String giverName;
+139: String giverTeam = "";
+140: if (isUserTeamGiver) {
+141:     giverName = String.format("Your Team (%s)", response.getGiver());
+142:     giverTeam = response.getGiver();
+143: } else if (isUserGiver) {
+144:     giverName = "You";
+145:     giverTeam = student.getTeam();
+146: } else {
+147:     // we don't want student to figure out who is who by using the hash
+148:     giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle));
+149: }
+``` 
+If these blocks of code are put into other methods, the CC are reduced from 17 to 11, which is a reduction by ~ 35.3%. This was verfied by using `lizard` before and after the refactoring.
+
+**Refactored version:** [refactoring, function 1](https://github.com/DD2480G19/teammates/tree/75-refactoring-function-1)  
+**Show patch (from master):** `git diff origin/75-refactoring-function-1`  
+
 ## Coverage
 <img src="https://y.yarn.co/3d5ad220-edc8-4601-b220-87e1ad9f5e2c_text.gif">
 
