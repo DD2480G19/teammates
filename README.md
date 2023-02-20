@@ -242,7 +242,7 @@ The following two boolean expressions can easily refactored into separate static
 92:            || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
 ``` 
 
-By moving these expression to separate methods, the CC is reduced from 17 to 7, which is a reduction by ~ 58.8%. This was verfied by using `lizard` before and after the refactoring. Another benefit of this refactor is that function 1 (`SessionResultsData::buildSingleResponseForStudent`) also computes the same expression which means that the refactor also reduces duplicate code.
+By moving these expression to separate methods, the CC is reduced from 15 to 7, which is a reduction by ~ 53% by `lizard` (or 16 to 8 by Samuels counting). Another benefit of this refactor is that function 1 (`SessionResultsData::buildSingleResponseForStudent`) also computes the same expression which means that the refactor also reduces duplicate code.
 
 **Refactored version:** [refactoring, function 4](https://github.com/DD2480G19/teammates/tree/78-refactoring-function-4)  
 **Show patch (from master):** `git diff origin/78-refactoring-function-8`  
