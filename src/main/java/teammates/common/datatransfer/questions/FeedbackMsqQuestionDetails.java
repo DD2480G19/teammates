@@ -1,6 +1,7 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -51,6 +52,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private int maxSelectableChoices;
     private int minSelectableChoices;
 
+    private HashSet<Integer> branchCover;
+
     public FeedbackMsqQuestionDetails() {
         this(null);
     }
@@ -65,49 +68,103 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.hasAssignedWeights = false;
         this.msqWeights = new ArrayList<>();
         this.msqOtherWeight = 0;
+        this.branchCover = new HashSet<>();
     }
 
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
-
-        if (this.msqChoices.size() != newMsqDetails.msqChoices.size()
-                || !this.msqChoices.containsAll(newMsqDetails.msqChoices)
-                || !newMsqDetails.msqChoices.containsAll(this.msqChoices)) {
+        // id 0
+        if (this.msqChoices.size() != newMsqDetails.msqChoices.size()) {
+            branchCover.add(0);
             return true;
+        }else{
+            branchCover.add(1);
+        }
+
+        if(!this.msqChoices.containsAll(newMsqDetails.msqChoices)){
+            branchCover.add(2);
+            return true;
+        }else{
+            branchCover.add(3);
+        }
+
+        if(!newMsqDetails.msqChoices.containsAll(this.msqChoices)){
+            branchCover.add(4);
+            return true;
+        }else{
+            branchCover.add(5);
         }
 
         if (this.generateOptionsFor != newMsqDetails.generateOptionsFor) {
+            branchCover.add(6);
             return true;
+        }else{
+            branchCover.add(7);
         }
 
-        if (this.maxSelectableChoices == Const.POINTS_NO_VALUE
-                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE) {
+        if (this.maxSelectableChoices == Const.POINTS_NO_VALUE){
             // Delete responses if max selectable restriction is newly added
-            return true;
+            if(newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE){
+                branchCover.add(8);
+                return true;
+            }else {
+                branchCover.add(9);
+            }
+        }else {
+            branchCover.add(10);
         }
 
-        if (this.minSelectableChoices == Const.POINTS_NO_VALUE
-                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE) {
+
+        if (this.minSelectableChoices == Const.POINTS_NO_VALUE){
             // Delete responses if min selectable restriction is newly added
-            return true;
+            if(newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE){
+                branchCover.add(11);
+                return true;
+            }
+            branchCover.add(12);
+        }else {
+            branchCover.add(13);
         }
 
-        if (this.minSelectableChoices != Const.POINTS_NO_VALUE
-                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE
-                && this.minSelectableChoices < newMsqDetails.minSelectableChoices) {
-            // A more strict min selectable choices restriction is placed
-            return true;
+        if (this.minSelectableChoices != Const.POINTS_NO_VALUE){
+            if(newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE){
+                if(this.minSelectableChoices < newMsqDetails.minSelectableChoices){
+                    branchCover.add(14);
+                    // A more strict min selectable choices restriction is placed
+                    return true;
+                }else{
+                    branchCover.add(15);
+                }
+            }else{
+                branchCover.add(16);
+            }
+        }else{
+            branchCover.add(17);
         }
 
-        if (this.maxSelectableChoices != Const.POINTS_NO_VALUE
-                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE
-                && this.maxSelectableChoices > newMsqDetails.maxSelectableChoices) {
-            // A more strict max selectable choices restriction is placed
-            return true;
+        if (this.maxSelectableChoices != Const.POINTS_NO_VALUE){
+            if(newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE){
+                if(this.maxSelectableChoices > newMsqDetails.maxSelectableChoices){
+                    branchCover.add(18);
+                // A more strict max selectable choices restriction is placed
+                    return true;
+                }else {
+                    branchCover.add(19);
+                }
+            }else{
+                branchCover.add(20);
+            }
+        }else{
+            branchCover.add(21);
         }
-
-        return this.otherEnabled != newMsqDetails.otherEnabled;
+        if(this.otherEnabled != newMsqDetails.otherEnabled){
+            branchCover.add(22);
+            return true;
+        }else {
+            branchCover.add(23);
+            return false;
+        }
     }
 
     @Override
@@ -340,4 +397,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.minSelectableChoices = minSelectableChoices;
     }
 
+    public void peekBranchCovering(){
+        System.out.print("Reached branches: ");
+        for(Integer id: branchCover){
+            System.out.print(id + " ");
+        }
+        System.out.println();
+    }
+
 }
+

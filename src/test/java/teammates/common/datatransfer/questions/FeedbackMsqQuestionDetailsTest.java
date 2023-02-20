@@ -410,8 +410,11 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         assertTrue(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
     }
 
+    //todo check all these tests
     @Test
     public void testShouldChangesRequireResponseDeletion_differentMsqChoices_shouldReturnTrue() {
+        System.out.println("Executing test 1:");
+
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(List.of("choice1", "choice2"));
 
@@ -419,10 +422,14 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         newMsqDetails.setMsqChoices(List.of("choice1", "choice 3"));
 
         assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+
+        msqDetails.peekBranchCovering();
     }
 
     @Test
     public void testShouldChangesRequireResponseDeletion_differentGenerateOptionsFor_shouldReturnTrue() {
+        System.out.println("Executing test 2:");
+
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
 
@@ -430,10 +437,14 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         newMsqDetails.setGenerateOptionsFor(FeedbackParticipantType.INSTRUCTORS);
 
         assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+
+        msqDetails.peekBranchCovering();
     }
 
     @Test
     public void testShouldChangesRequireResponseDeletion_maxRestrictionAdded_shouldReturnTrue() {
+        System.out.println("Executing test 3:");
+
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMaxSelectableChoices(Const.POINTS_NO_VALUE);
 
@@ -441,10 +452,14 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         newMsqDetails.setMaxSelectableChoices(32767);
 
         assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+
+        msqDetails.peekBranchCovering();
     }
 
     @Test
     public void testShouldChangesRequireResponseDeletion_minRestrictionAdded_shouldReturnTrue() {
+        System.out.println("Executing test 4: ");
+
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMinSelectableChoices(Const.POINTS_NO_VALUE);
 
@@ -452,10 +467,14 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         newMsqDetails.setMinSelectableChoices(32767);
 
         assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+
+        msqDetails.peekBranchCovering();
     }
 
     @Test
     public void testShouldChangesRequireResponseDeletion_moreStrictMaxRestrictionAdded_shouldReturnTrue() {
+        System.out.println("Executing test 5: ");
+
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMaxSelectableChoices(32767);
 
@@ -463,10 +482,13 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         newMsqDetails.setMaxSelectableChoices(3);
 
         assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+        msqDetails.peekBranchCovering();
     }
 
     @Test
     public void testShouldChangesRequireResponseDeletion_moreStrictMinRestrictionAdded_shouldReturnTrue() {
+        System.out.println("Executing test 6:");
+
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMinSelectableChoices(3);
 
@@ -474,10 +496,13 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         newMsqDetails.setMinSelectableChoices(32767);
 
         assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+        msqDetails.peekBranchCovering();
     }
 
     @Test
     public void testShouldChangesRequireResponseDeletion_differentOtherEnabled_shouldReturnTrue() {
+        System.out.println("Executing test 7:");
+
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setOtherEnabled(true);
 
@@ -485,10 +510,14 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         newMsqDetails.setOtherEnabled(false);
 
         assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+
+        msqDetails.peekBranchCovering();
     }
 
     @Test
     public void testShouldChangesRequireResponseDeletion_sameQuestionsDifferentOrder_shouldReturnFalse() {
+        System.out.println("Executing test 8:");
+
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(List.of("choice1", "choice2", "choice3"));
         msqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
@@ -500,5 +529,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         newMsqDetails.setOtherEnabled(false);
 
         assertFalse(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+
+        msqDetails.peekBranchCovering();
     }
 }
