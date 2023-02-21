@@ -348,6 +348,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
             }
         }
         // Print reached branches in FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions
+        /*
         System.err.println("\n-----------------------------------------------------------------------------------------------------");
         System.err.println("Reached branches in FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions:");
         int count = 0;
@@ -360,6 +361,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         System.err.println("(branch ID's range from 1 to 32)");
         System.err.println("\nBranch coverage: \n" + count + "/" + FeedbackRankRecipientsResponseDetails.REACHED_BRANCHES.length);
         System.err.println("-----------------------------------------------------------------------------------------------------");
+         */
     }
 
     private boolean areRankResponsesConsistent(List<FeedbackResponseAttributes> responses, int maxRank) {
