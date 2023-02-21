@@ -61,19 +61,7 @@ public class GetFeedbackSessionLogsAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
         String fslTypes = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
-        List<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
-        if (fslTypes != null) {
-            // Multiple log types are separated by a comma e.g access,submission
-            for (String fslType : fslTypes.split(",")) {
-                FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
-
-                if (convertedFslType == null) {
-                    throw new InvalidHttpParameterException("Invalid log type");
-                }
-
-                convertedFslTypes.add(convertedFslType);
-            }
-        }
+        List<FeedbackSessionLogType> convertedFslTypes = getConvertedFslTypes(fslTypes);
 
         String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
         String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);
@@ -99,6 +87,11 @@ public class GetFeedbackSessionLogsAction extends Action {
             );
         }
 
+        FeedbackSessionLogsData fslData = getFslData(courseId, email, startTime, endTime, feedbackSessionName, fslTypes, convertedFslTypes);
+        return new JsonResult(fslData);
+    }
+
+    private FeedbackSessionLogsData getFslData(String courseId, String email, long startTime, long endTime, String feedbackSessionName, String fslTypes, List<FeedbackSessionLogType> convertedFslTypes){
         List<FeedbackSessionLogEntry> fsLogEntries =
                 logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
         Map<String, StudentAttributes> studentsMap = new HashMap<>();
@@ -132,7 +125,24 @@ public class GetFeedbackSessionLogsAction extends Action {
         feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getFeedbackSessionName(), new ArrayList<>()));
 
         FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries, studentsMap, sessionsMap);
-        return new JsonResult(fslData);
+        return fslData;
+    }
+
+    private List<FeedbackSessionLogType> getConvertedFslTypes(String fslTypes) {
+        List<FeedbackSessionLogType> convertedFslTypes = new ArrayList<>();
+        if (fslTypes != null) {
+            // Multiple log types are separated by a comma e.g access,submission
+            for (String fslType : fslTypes.split(",")) {
+                FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
+
+                if (convertedFslType == null) {
+                    throw new InvalidHttpParameterException("Invalid log type");
+                }
+
+                convertedFslTypes.add(convertedFslType);
+            }
+        }
+        return convertedFslTypes;
     }
 
     private Map<String, List<FeedbackSessionLogEntry>> groupFeedbackSessionLogEntries(
