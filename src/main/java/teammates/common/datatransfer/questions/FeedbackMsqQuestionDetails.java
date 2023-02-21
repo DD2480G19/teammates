@@ -71,44 +71,78 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
 
-        if (this.msqChoices.size() != newMsqDetails.msqChoices.size()
-                || !this.msqChoices.containsAll(newMsqDetails.msqChoices)
-                || !newMsqDetails.msqChoices.containsAll(this.msqChoices)) {
+        if (checkFirstCondition(newDetails)) {
             return true;
         }
 
-        if (this.generateOptionsFor != newMsqDetails.generateOptionsFor) {
+        if (checkSecondCondition(newDetails)) {
             return true;
         }
 
-        if (this.maxSelectableChoices == Const.POINTS_NO_VALUE
-                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE) {
+        if (checkThirdCondition(newDetails)) {
             // Delete responses if max selectable restriction is newly added
             return true;
         }
 
-        if (this.minSelectableChoices == Const.POINTS_NO_VALUE
-                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE) {
+        if (checkFourthCondition(newDetails)) {
             // Delete responses if min selectable restriction is newly added
             return true;
         }
 
-        if (this.minSelectableChoices != Const.POINTS_NO_VALUE
-                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE
-                && this.minSelectableChoices < newMsqDetails.minSelectableChoices) {
+        if (checkFifthCondition(newDetails)) {
             // A more strict min selectable choices restriction is placed
             return true;
         }
 
-        if (this.maxSelectableChoices != Const.POINTS_NO_VALUE
-                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE
-                && this.maxSelectableChoices > newMsqDetails.maxSelectableChoices) {
+        if (checkSixthCondition(newDetails)) {
             // A more strict max selectable choices restriction is placed
             return true;
         }
 
         return this.otherEnabled != newMsqDetails.otherEnabled;
     }
+
+    //--------------------------------sub_functions_for_refactoring-----------------------------------------------------
+    private boolean checkFirstCondition(FeedbackQuestionDetails newDetails){
+        FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
+        return this.msqChoices.size() != newMsqDetails.msqChoices.size()
+                || !this.msqChoices.containsAll(newMsqDetails.msqChoices)
+                || !newMsqDetails.msqChoices.containsAll(this.msqChoices);
+    }
+
+    private boolean checkSecondCondition(FeedbackQuestionDetails newDetails) {
+        FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
+        return this.generateOptionsFor != newMsqDetails.generateOptionsFor;
+    }
+
+    private boolean checkThirdCondition(FeedbackQuestionDetails newDetails) {
+        FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
+        return this.maxSelectableChoices == Const.POINTS_NO_VALUE
+                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE;
+    }
+
+    private boolean checkFourthCondition(FeedbackQuestionDetails newDetails) {
+        FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
+        return this.minSelectableChoices == Const.POINTS_NO_VALUE
+                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE;
+    }
+
+    private boolean checkFifthCondition(FeedbackQuestionDetails newDetails) {
+        FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
+        return this.minSelectableChoices != Const.POINTS_NO_VALUE
+                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE
+                && this.minSelectableChoices < newMsqDetails.minSelectableChoices;
+    }
+
+    private boolean checkSixthCondition(FeedbackQuestionDetails newDetails) {
+        FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
+        return this.maxSelectableChoices != Const.POINTS_NO_VALUE
+                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE
+                && this.maxSelectableChoices > newMsqDetails.maxSelectableChoices;
+    }
+    //--------------------------------sub_functions_for_refactoring-----------------------------------------------------
+
+
 
     @Override
     public List<String> validateQuestionDetails() {
