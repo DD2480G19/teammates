@@ -224,6 +224,14 @@ If these blocks of code are put into other methods, the CC are reduced from 17 t
 **Refactored version:** [refactoring, function 1](https://github.com/DD2480G19/teammates/tree/75-refactoring-function-1)  
 **Show patch (from master):** `git diff origin/75-refactoring-function-1`  
 
+#### Function 2 : `GetFeedbackSessionLogsAction::execute`
+
+**Refactoring plan:**
+Looking at the function, we can see that the function basically does two things. First, it verifies the inputs given, second, it gets the data to be returned. To reduce the CC, we can split these parts up into two functions. We keep the verifying part in the existing function `execute`, and we move the data part to a new private function `getFslData`. The first part has a CC of 12, and the second part has a CC of 5. This would mean a 30% reduction of the CC. To reduce it further, we can look at simplifying the verifying part. There is one part about the feedback session log types that can be split to a separate function. This further reduces the CC by 3. This leaves us with a CC of 9 (Verified by `Lizard`), and thus is reduced by 47%.
+
+**Refactored version:** [refactoring, function 2](https://github.com/DD2480G19/teammates/tree/76-refactoring-function-2-refactoring)  
+**Show patch:** [link to patch, function 2](https://github.com/DD2480G19/teammates/commit/a92a2c97bc196a5eb97d3be6f291d8d8d1faa081?diff=split)
+
 #### Function 4 : `SessionResultsData::initForStudent`
 
 **Refactoring plan:**
