@@ -412,7 +412,8 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         assertTrue(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
     }
 
-    //todo check all these tests, add new tests
+    //------------------test-that-concern-function-5--------------------------------------------------------------------
+    // Printing number of test is for clarity to study branch coverage on stdout
     @Test
     public void testShouldChangesRequireResponseDeletion_differentMsqChoices_shouldReturnTrue() {
         System.out.println("Executing test 1:");
@@ -537,11 +538,14 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
     //---------------------------------Added_Tests----------------------------------------------------------------------
 
+
+    // test 1
     @Test
     public void testShouldChangesRequireResponseDeletion_restrictMinSelectableChoices_shouldReturnTrue(){
         System.out.println("Executing test 9: ");
 
         // should exit at id 18, while covering branch 15
+        // branch 15 covered by having first minSelectableChoices bigger then second one
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMinSelectableChoices(3000);
         msqDetails.setMaxSelectableChoices(327);
@@ -554,11 +558,13 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.peekBranchCovering();
     }
 
+    // test 2
     @Test
     public void testShouldChangesRequireResponseDeletion_minSelectableEqualsConstNoValue_shouldReturnTrue(){
         System.out.println("Executing test 10: ");
 
         // should cover branch 16 and exit at id 18
+        // branch 16 covered by setting second minSelectableChoices to Const.POINTS_NO_VALUE
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMinSelectableChoices(30);
         msqDetails.setMaxSelectableChoices(3000);
@@ -571,11 +577,13 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.peekBranchCovering();
     }
 
+    // test 3
     @Test
     public void testShouldChangesRequireResponseDeletion_maxSelectableEqualsConstNoValue_shouldReturnTrue(){
         System.out.println("Executing test 11: ");
 
         // should cover branch 20 and exit at branch 22
+        // branch 20 covered by setting second maxSelectableChoices to Const.POINTS_NO_VALUE
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMaxSelectableChoices(3000);
         msqDetails.setOtherEnabled(true);
@@ -588,10 +596,12 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.peekBranchCovering();
     }   
 
+    // test 4
     @Test
     public void testShouldChangesRequireResponseDeletion_maxSelectableBigger_shouldReturnTrue() {
         System.out.println("Executing test 12: ");
 
+        // branch 19 covered by setting first maxSelectableChoices smaller then second
         // should cover branch 19 and exit at branch 22
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMaxSelectableChoices(3);
