@@ -1673,6 +1673,19 @@
         "answer": "Response from instr to Team 2.1"
       }
     },
+    "response1ForQ2S1C2": {
+      "feedbackSessionName": "Instructor feedback session",
+      "courseId": "idOfTypicalCourse2",
+      "feedbackQuestionId": "2",
+      "giver": "instructor3@course2.tmt",
+      "recipient": "instructor2@course2.tmt",
+      "giverSection": "None",
+      "recipientSection": "None",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from instructor 3 to instructor 2"
+      }
+    },
     "response1ForQ1S2C2": {
       "feedbackSessionName": "Not answerable feedback session",
       "courseId": "idOfTypicalCourse2",
