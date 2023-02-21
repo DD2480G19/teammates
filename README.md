@@ -192,6 +192,69 @@ Estimated impact of refactoring (lower CC, but other drawbacks?).
 Carried out refactoring (optional, P+):
 git diff ...
 
+#### Function 1 : `SessionResultsData::buildSingleResponseForStudent`
+
+**Refactoring plan:**
+
+There are two parts of the code that easily can be put into other separate methods. 
+
+First, a large compound predicate:
+```java
+127: boolean isUserGiver = student.getEmail().equals(response.getGiver())  
+128:            && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS  
+129:            || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+``` 
+Second, a decision with three different outcomes:
+```java
+138: String giverName;
+139: String giverTeam = "";
+140: if (isUserTeamGiver) {
+141:     giverName = String.format("Your Team (%s)", response.getGiver());
+142:     giverTeam = response.getGiver();
+143: } else if (isUserGiver) {
+144:     giverName = "You";
+145:     giverTeam = student.getTeam();
+146: } else {
+147:     // we don't want student to figure out who is who by using the hash
+148:     giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle));
+149: }
+``` 
+If these blocks of code are put into other methods, the CC are reduced from 17 to 11, which is a reduction by ~ 35.3%. This was verfied by using `lizard` before and after the refactoring.
+
+**Refactored version:** [refactoring, function 1](https://github.com/DD2480G19/teammates/tree/75-refactoring-function-1)  
+**Show patch (from master):** `git diff origin/75-refactoring-function-1`  
+
+#### Function 2 : `GetFeedbackSessionLogsAction::execute`
+
+**Refactoring plan:**
+Looking at the function, we can see that the function basically does two things. First, it verifies the inputs given, second, it gets the data to be returned. To reduce the CC, we can split these parts up into two functions. We keep the verifying part in the existing function `execute`, and we move the data part to a new private function `getFslData`. The first part has a CC of 12, and the second part has a CC of 5. This would mean a 30% reduction of the CC. To reduce it further, we can look at simplifying the verifying part. There is one part about the feedback session log types that can be split to a separate function. This further reduces the CC by 3. This leaves us with a CC of 9 (Verified by `Lizard`), and thus is reduced by 47%.
+
+**Refactored version:** [refactoring, function 2](https://github.com/DD2480G19/teammates/tree/76-refactoring-function-2-refactoring)  
+**Show patch:** [link to patch, function 2](https://github.com/DD2480G19/teammates/commit/a92a2c97bc196a5eb97d3be6f291d8d8d1faa081?diff=split)
+
+#### Function 4 : `SessionResultsData::initForStudent`
+
+**Refactoring plan:**
+
+The following two boolean expressions can easily refactored into separate static methods:
+
+```java
+87: boolean isUserGiver = student.getEmail().equals(response.getGiver())  
+88:            && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS  
+89:            || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+``` 
+
+```java
+90: boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
+91:            && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+92:            || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
+``` 
+
+By moving these expression to separate methods, the CC is reduced from 15 to 7, which is a reduction by ~ 53% by `lizard` (or 16 to 8 by Samuels counting). Another benefit of this refactor is that function 1 (`SessionResultsData::buildSingleResponseForStudent`) also computes the same expression which means that the refactor also reduces duplicate code.
+
+**Refactored version:** [refactoring, function 4](https://github.com/DD2480G19/teammates/tree/78-refactoring-function-4)  
+**Show patch (from master):** `git diff origin/78-refactoring-function-8`  
+
 ## Coverage
 <img src="https://y.yarn.co/3d5ad220-edc8-4601-b220-87e1ad9f5e2c_text.gif">
 
@@ -213,10 +276,10 @@ What kinds of constructs does your tool support, and how accurate is its output?
 | # | Patch
 |---|------------------------------------------------------------------------------------------------------------------------------------------|
 | 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Branch:** [manual instrumentation, function 1](https://github.com/DD2480G19/teammates/tree/37-manual-instrumentation-function-1) <br> **Show patch (from master):** `git diff origin/37-manual-instrumentation-function-1` |
-| 2 |  |
-| 3 | **Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br> **Branch**: [manual instrumentation, function 3](https://github.com/DD2480G19/teammates/tree/39-branch-coverage-by-manual-instrumentation-function-3) <br> **Show patch (from master):**: `git diff origin/39-branch-coverage-by-manual-instrumentation-function-3` |
+| 2 | **Function**: `GetFeedbackSessionLogsAction::execute` <br> **Branch:** [manual instrumentation, function 2](https://github.com/DD2480G19/teammates/tree/38-manual-instrumentation-function-2) <br> Git command that is used to obtain the patch (from master): `git diff 38-manual-instrumentation-function-2`|
+| 3 | **Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br> **Branch**: [manual instrumentation, function 3](https://github.com/DD2480G19/teammates/tree/39-branch-coverage-by-manual-instrumentation-function-3) <br> **Show patch (from master):**: `git diff origin/39-branch-coverage-by-manual-instrumentation-function-3`**Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br> **Branch**: [manual instrumentation, function 3](https://github.com/DD2480G19/teammates/tree/39-branch-coverage-by-manual-instrumentation-function-3) <br> **Show patch (from master):**: `git diff origin/39-branch-coverage-by-manual-instrumentation-function-3` |
 | 4 | **Function**: `SessionResultData::initForStudent` <br> **Branch:** [manual instrumentation, function 4](https://github.com/DD2480G19/teammates/tree/40-manual-instrumentation-function-4) <br> **Show patch (from master):** `git diff origin/40-manual-instrumentation-function-4 src/main/java/teammates/ui/output/SessionResultsData.java` |
-| 5 |  |
+| 5 | **Function**: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion` <br> **Branch:** [manual instrumentation, function 5](https://github.com/DD2480G19/teammates/tree/41-branch-coverage-by-manual-instrumentation-function-5) <br> Git command that is used to obtain the patch (from master): `git diff 41-branch-coverage-by-manual-instrumentation-function-5` |
 
 ### Evaluation
 
@@ -228,10 +291,11 @@ What kinds of constructs does your tool support, and how accurate is its output?
 | # | Evaluation
 |---|------------------------------------------------------------------------------------------------------------------------------------------|
 | 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br><br> The tool takes advantage of _lazy evaluation_ for compound conditions (conjunctions) and detects overlapping branches (e.g. first term in SessionResultsData.java:90 and :91). Because of this, the number of branches differs from the results of the existing tool `Jacoco`. However, the coverage of the two tools is almost the same: 44% vs. Jacoco's 50%. Regarding limitations, if more tests were to be added to the project, the calls for outputting the coverage results would have to be placed at the end of the last tests, to make sure that every unit test is included. There are no ternary operators or exceptions, hence, the tool does not consider this.                   |
-| 2 |  |
-| 3 | **Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br><br> The coverage of the manual instrumentation was 78.125%. If statements without else clause got one added. There are no ternary operators, so the tool does not consider this. Although, it does take exceptions (/assertions) into account. The tool is not automated, so if related parts of the program are modified, the tool will (likely) also have to be modified in order to work. |
+| 2 |  **Function**: `GetFeedbackSessionLogsAction::execute` <br><br> To implement branch coverage through manual instrumentation, the function had to be rewritten to be able to access all branches. This included adding else statements and dividing if statements which had multiple conditions. This is a big limitation of the tool, that the code will now be less readable and understandable. The coverage tool was implemented with a boolean array to check if a specific branch were covered. There were not any complicated parts in the function, so this approach should be detailed and complete. However if the code were to be changed, you would also need to fix the code coverage calculations accourdingly. The result of the tool shows that the function contains 29 branches, branches taken was: 0 1 2 3 4 5 9 13 14 16 17 18 20 24 25 27 28, Branch coverage: 17/29 (58%). Compare this with the existing tool `Jacoco` implemented in the project, which also gave a 58% coverage. |
+| 3 | **Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br><br> The coverage of the manual instrumentation was 78.125%. If statements without else clause got one added. There are no ternary operators, so the tool does not consider this. Although, it does take exceptions (/assertions) into account. The tool is not automated, so if related parts of the program are modified, the tool will (likely) also have to be modified in order to work.**Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br><br> The coverage of the manual instrumentation was 78.125%. If statements without else clause got one added. There are no ternary operators, so the tool does not consider this. Although, it does take exceptions (/assertions) into account. The tool is not automated, so if related parts of the program are modified, the tool will (likely) also have to be modified in order to work. |
 | 4 | **Function**: `SessionResultData::initForStudent` <br><br> To calculate the coverage, all boolean expressions were firstly expanded to nested if/else statements to get all possible branches. For if statements without an else clause, a new one was added to check whether the negative case is tested as well. For each branch point in the modified source file, a `println` call was added to print `Reached: {id}` to `stdout`. This approach makes it very cumbersome if we want to modify the code itself. However, when adding new testcases, there should not be a need to change the instrumentation. <br><br> To analyze the results the log output was piped to a separate file and then collected with grep. <br><br> **Results:**<br>Out of 30 points (1-30), the tests reached the following points: <br>`[1, 2, 3, 4, 5, 9, 10, 12, 13, 17, 18, 20, 21, 22, 23, 24, 25, 26, 28]`<br><br> This means that the tests miss points 6, 7, 8, 11, 14, 15, 16, 19, 27, 29, and 30. <br><br> The percentual coverage is ~0.68 which is relatively similar to the results from JaCoCo which gets a branch coverage of 0.62. |
-| 5 |  |
+
+| 5 |  **Function**: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion` The tool implemented assigned an id for all existing branches. An attribute branchCover of type *hashSet<Integer>* is created to store IDs of covered branches. In the constructor, it's initilaised to an empty set. At the evaluated function, every time a branch is visited, its ID is added to the hashSet. The problem with the naively implemented tool is that it only covers existing branches in the function, and existing unit tests, if any modification of the source code happens, the newly branches won't be considered, nor assigned an ID. 6 branches out of 30 weren't covered, which is the same result generated by Jacoco (80% coverage). |
 
 ## Coverage improvement
 <img src="https://media.tenor.com/LqG262WEznAAAAAC/that-is-progress-dan-levy.gif">
@@ -247,8 +311,8 @@ Number of test cases added: two per team member (P) or at least four (P+).
 
 | # | Patch
 |---|------------------------------------------------------------------------------------------------------------------------------------------|
-| 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Test cases added:** [coverage improvement, function 1](https://github.com/DD2480G19/teammates/tree/42-coverage-improvement-function-1) <br> **Show patch (from master):** `git diff origin/42-coverage-improvement-function-1` <br> Report of old coverage: [link](improved_coverage/function1/jacoco_report_old/old_coverage.md) <br> Report of new coverage: [link](improved_coverage/function1/jacoco_report_new/new_coverage.md)  |
-| 2 |  |
+| 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Test cases added:** <br>Branch: [coverage improvement, function 1](https://github.com/DD2480G19/teammates/tree/42-coverage-improvement-function-1) <br> - [New test 1](https://github.com/DD2480G19/teammates/blob/8faf21604e93caa9558c7ea53112ff3ee0ddda71/src/test/java/teammates/ui/webapi/GetSessionResultsActionTest.java#L119) <br> - [New test 2](https://github.com/DD2480G19/teammates/blob/8faf21604e93caa9558c7ea53112ff3ee0ddda71/src/test/java/teammates/ui/webapi/GetSessionResultsActionTest.java#L145) <br> - [New test 3](https://github.com/DD2480G19/teammates/blob/8faf21604e93caa9558c7ea53112ff3ee0ddda71/src/test/java/teammates/ui/webapi/GetSessionResultsActionTest.java#L171) <br> - [New test 4](https://github.com/DD2480G19/teammates/blob/8faf21604e93caa9558c7ea53112ff3ee0ddda71/src/test/java/teammates/ui/webapi/GetSessionResultsActionTest.java#L197) <br> **Show patch (from master):** `git diff origin/42-coverage-improvement-function-1` <br> Report of old coverage: [link](improved_coverage/function1/jacoco_report_old/old_coverage.md) <br> Report of new coverage: [link](improved_coverage/function1/jacoco_report_new/new_coverage.md)   |
+| 2 | **Function**: `GetFeedbackSessionLogsAction::execute` <br> **Test cases added:** [coverage improvement, function 2](https://github.com/DD2480G19/teammates/tree/43-coverage-improvement-function-2) <br> **Show patch (from master):** `git diff origin/43-coverage-improvement-function-2` <br> Report of old coverage: [link](improved_coverage_function_2/old_coverage.png) <br> Report of new coverage: [link](improved_coverage_function_2/new_coverage.png) |
 | 3 |  |
 | 4 |  |
 | 5 |  |
@@ -256,11 +320,7 @@ Number of test cases added: two per team member (P) or at least four (P+).
 
 ## Self-assessment: Way of working
 
->**TODO:**
->Current state according to the Essence standard: ...
-Was the self-assessment unanimous? Any doubts about certain items?
-How have you improved so far?
-Where is potential for improvement?
+The different states of the Team is seeded, formed, collaborating, performing and adjourned. The seeded and formed states were quickly passed as the team had its first meeting, where the team agreed on a way of working to be adopted in the project. Many of the key practises were suggestion from things that worked good from the previous groups. As of now, the group is working mostly as one cohesive unit, have an open communication where you trust each other, and have started to get to know each other. Therefore, the team is currently in the collaborating state. To reach the next state, the team would need more time to work together. It’s too early to say that the group consistently meets its commitments and that it adapts to the changing contexts, because this is the first deadline together. The whole group agrees that it was easier to get to the collaborating state this time around, as a result of the knowledge gotten from the first groups. The biggest improvement was seen in how the project was structured and what design principles the team wanted to follow.
 
 ## Overall experience
 
