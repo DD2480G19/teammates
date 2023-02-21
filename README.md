@@ -311,11 +311,7 @@ Number of test cases added: two per team member (P) or at least four (P+).
 
 ## Self-assessment: Way of working
 
->**TODO:**
->Current state according to the Essence standard: ...
-Was the self-assessment unanimous? Any doubts about certain items?
-How have you improved so far?
-Where is potential for improvement?
+The different states of the Team is seeded, formed, collaborating, performing and adjourned. The seeded and formed states were quickly passed as the team had its first meeting, where the team agreed on a way of working to be adopted in the project. Many of the key practises were suggestion from things that worked good from the previous groups. As of now, the group is working mostly as one cohesive unit, have an open communication where you trust each other, and have started to get to know each other. Therefore, the team is currently in the collaborating state. To reach the next state, the team would need more time to work together. It’s too early to say that the group consistently meets its commitments and that it adapts to the changing contexts, because this is the first deadline together. The whole group agrees that it was easier to get to the collaborating state this time around, as a result of the knowledge gotten from the first groups. The biggest improvement was seen in how the project was structured and what design principles the team wanted to follow.
 
 ## Overall experience
 
