@@ -12,6 +12,8 @@ import teammates.common.util.Const;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCase;
 
+import javax.sound.midi.Track;
+
 /**
  * SUT: {@link FeedbackMsqQuestionDetails}.
  */
@@ -410,7 +412,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         assertTrue(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
     }
 
-    //todo check all these tests
+    //todo check all these tests, add new tests
     @Test
     public void testShouldChangesRequireResponseDeletion_differentMsqChoices_shouldReturnTrue() {
         System.out.println("Executing test 1:");
@@ -532,4 +534,74 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         msqDetails.peekBranchCovering();
     }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_restrictMinSelectableChoices_shouldReturnTrue(){
+        System.out.println("Executing test 9: ");
+
+        // should exit at id 18, while covering branch 15
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMinSelectableChoices(3000);
+        msqDetails.setMaxSelectableChoices(327);
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setMinSelectableChoices(3);
+        newMsqDetails.setMaxSelectableChoices(3);
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+        msqDetails.peekBranchCovering();
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_minSelectableEqualsConstNoValue_shouldReturnTrue(){
+        System.out.println("Executing test 10: ");
+
+        // should cover branch 16 and exit at id 18
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMinSelectableChoices(30);
+        msqDetails.setMaxSelectableChoices(3000);
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setMinSelectableChoices(Const.POINTS_NO_VALUE);
+        newMsqDetails.setMaxSelectableChoices(3);
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+        msqDetails.peekBranchCovering();
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_maxSelectableEqualsConstNoValue_shouldReturnTrue(){
+        System.out.println("Executing test 11: ");
+
+        // should cover branch 20 and exit at branch 22
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMaxSelectableChoices(3000);
+        msqDetails.setOtherEnabled(true);
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setMaxSelectableChoices(Const.POINTS_NO_VALUE);
+        newMsqDetails.setOtherEnabled(false);
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+        newMsqDetails.peekBranchCovering();
+    }
+
+    @Test
+    public void testShouldChangesRequireResponseDeletion_maxSelectableBigger_shouldReturnTrue() {
+        System.out.println("Executing test 12: ");
+
+        // should cover branch 19 and exit at branch 22
+        FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
+        msqDetails.setMaxSelectableChoices(3);
+        msqDetails.setOtherEnabled(true);
+
+        FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
+        newMsqDetails.setMaxSelectableChoices(3000);
+        newMsqDetails.setOtherEnabled(false);
+
+        assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
+        msqDetails.peekBranchCovering();
+    }
+
+
 }

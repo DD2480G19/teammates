@@ -76,6 +76,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
         // id 0
         if (this.msqChoices.size() != newMsqDetails.msqChoices.size()) {
+            // never reached
             branchCover.add(0);
             return true;
         }else{
@@ -90,6 +91,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         if(!newMsqDetails.msqChoices.containsAll(this.msqChoices)){
+            // never reached
             branchCover.add(4);
             return true;
         }else{
@@ -138,9 +140,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     // A more strict min selectable choices restriction is placed
                     return true;
                 }else{
+                    // unreached
                     branchCover.add(15);
                 }
             }else{
+                // unreached
                 branchCover.add(16);
             }
         }else{
@@ -156,9 +160,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 // A more strict max selectable choices restriction is placed
                     return true;
                 }else {
+                    // unreached
                     branchCover.add(19);
                 }
             }else{
+                // unreached
                 branchCover.add(20);
             }
         }else{
