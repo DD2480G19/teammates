@@ -255,6 +255,57 @@ By moving these expression to separate methods, the CC is reduced from 15 to 7, 
 **Refactored version:** [refactoring, function 4](https://github.com/DD2480G19/teammates/tree/78-refactoring-function-4)  
 **Show patch (from master):** `git diff origin/78-refactoring-function-8`  
 
+#### Function 5 : `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion`
+
+**Refactoring plan:**
+
+The following boolean expressions can be refactored into separate private 6 submethods, then called from the original method
+```java
+        if (this.msqChoices.size() != newMsqDetails.msqChoices.size()
+                || !this.msqChoices.containsAll(newMsqDetails.msqChoices)
+                || !newMsqDetails.msqChoices.containsAll(this.msqChoices)) {
+            return true;
+        }
+
+        if (this.generateOptionsFor != newMsqDetails.generateOptionsFor) {
+            return true;
+        }
+
+        if (this.maxSelectableChoices == Const.POINTS_NO_VALUE
+                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE) {
+            // Delete responses if max selectable restriction is newly added
+            return true;
+        }
+
+        if (this.minSelectableChoices == Const.POINTS_NO_VALUE
+                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE) {
+            // Delete responses if min selectable restriction is newly added
+            return true;
+        }
+
+        if (this.minSelectableChoices != Const.POINTS_NO_VALUE
+                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE
+                && this.minSelectableChoices < newMsqDetails.minSelectableChoices) {
+            // A more strict min selectable choices restriction is placed
+            return true;
+        }
+
+        if (this.maxSelectableChoices != Const.POINTS_NO_VALUE
+                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE
+                && this.maxSelectableChoices > newMsqDetails.maxSelectableChoices) {
+            // A more strict max selectable choices restriction is placed
+            return true;
+        }
+```
+If these blocks of code are put into other methods, the CC are reduced from 17 to 11, which is a reduction by ~ 35.3%. This was verfied by using `lizard` before and after the refactoring.
+
+**Refactored version:** [refactoring, function 5](https://github.com/DD2480G19/teammates/tree/75-refactoring-function-1)  
+**Show patch (from master):** `git diff origin/75-refactoring-function-1`  
+
+
+
+
+
 ## Coverage
 <img src="https://y.yarn.co/3d5ad220-edc8-4601-b220-87e1ad9f5e2c_text.gif">
 
@@ -279,7 +330,7 @@ What kinds of constructs does your tool support, and how accurate is its output?
 | 2 | **Function**: `GetFeedbackSessionLogsAction::execute` <br> **Branch:** [manual instrumentation, function 2](https://github.com/DD2480G19/teammates/tree/38-manual-instrumentation-function-2) <br> Git command that is used to obtain the patch (from master): `git diff 38-manual-instrumentation-function-2`|
 | 3 | **Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br> **Branch**: [manual instrumentation, function 3](https://github.com/DD2480G19/teammates/tree/39-branch-coverage-by-manual-instrumentation-function-3) <br> **Show patch (from master):**: `git diff origin/39-branch-coverage-by-manual-instrumentation-function-3`**Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br> **Branch**: [manual instrumentation, function 3](https://github.com/DD2480G19/teammates/tree/39-branch-coverage-by-manual-instrumentation-function-3) <br> **Show patch (from master):**: `git diff origin/39-branch-coverage-by-manual-instrumentation-function-3` |
 | 4 | **Function**: `SessionResultData::initForStudent` <br> **Branch:** [manual instrumentation, function 4](https://github.com/DD2480G19/teammates/tree/40-manual-instrumentation-function-4) <br> **Show patch (from master):** `git diff origin/40-manual-instrumentation-function-4 src/main/java/teammates/ui/output/SessionResultsData.java` |
-| 5 | **Function**: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion` <br> **Branch:** [manual instrumentation, function 5](https://github.com/DD2480G19/teammates/tree/41-branch-coverage-by-manual-instrumentation-function-5) <br> Git command that is used to obtain the patch (from master): `git diff 41-branch-coverage-by-manual-instrumentation-function-5` |
+| 5 | **Function**: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion` <br> **Branch:** [manual instrumentation, function 5](https://github.com/DD2480G19/teammates/tree/41-branch-coverage-by-manual-instrumentation-function-5) <br> Git command that is used to obtain the patch (from master): `git diff origin/41-branch-coverage-by-manual-instrumentation-function-5` |
 
 ### Evaluation
 
@@ -312,15 +363,15 @@ Number of test cases added: two per team member (P) or at least four (P+).
 | # | Patch
 |---|------------------------------------------------------------------------------------------------------------------------------------------|
 | 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Test cases added:** <br>Branch: [coverage improvement, function 1](https://github.com/DD2480G19/teammates/tree/42-coverage-improvement-function-1) <br> - [New test 1](https://github.com/DD2480G19/teammates/blob/8faf21604e93caa9558c7ea53112ff3ee0ddda71/src/test/java/teammates/ui/webapi/GetSessionResultsActionTest.java#L119) <br> - [New test 2](https://github.com/DD2480G19/teammates/blob/8faf21604e93caa9558c7ea53112ff3ee0ddda71/src/test/java/teammates/ui/webapi/GetSessionResultsActionTest.java#L145) <br> - [New test 3](https://github.com/DD2480G19/teammates/blob/8faf21604e93caa9558c7ea53112ff3ee0ddda71/src/test/java/teammates/ui/webapi/GetSessionResultsActionTest.java#L171) <br> - [New test 4](https://github.com/DD2480G19/teammates/blob/8faf21604e93caa9558c7ea53112ff3ee0ddda71/src/test/java/teammates/ui/webapi/GetSessionResultsActionTest.java#L197) <br> **Show patch (from master):** `git diff origin/42-coverage-improvement-function-1` <br> Report of old coverage: [link](improved_coverage/function1/jacoco_report_old/old_coverage.md) <br> Report of new coverage: [link](improved_coverage/function1/jacoco_report_new/new_coverage.md)   |
-| 2 | **Function**: `GetFeedbackSessionLogsAction::execute` <br> **Test cases added:** [coverage improvement, function 2](https://github.com/DD2480G19/teammates/tree/43-coverage-improvement-function-2) <br> **Show patch (from master):** `git diff origin/43-coverage-improvement-function-2` <br> Report of old coverage: [link](improved_coverage_function_2/old_coverage.png) <br> Report of new coverage: [link](improved_coverage_function_2/new_coverage.png) |
+| 2 | **Function**: `GetFeedbackSessionLogsAction::execute` <br> **Test cases added:**  <br>Branch: [coverage improvement, function 2](https://github.com/DD2480G19/teammates/tree/43-coverage-improvement-function-2) <br> - [New test 1](https://github.com/DD2480G19/teammates/blob/2432d48f8c32892ceecd329a2cf5d323be8513ca/src/test/java/teammates/ui/webapi/GetFeedbackSessionLogsActionTest.java#L115) <br> - [New test 2](https://github.com/DD2480G19/teammates/blob/2432d48f8c32892ceecd329a2cf5d323be8513ca/src/test/java/teammates/ui/webapi/GetFeedbackSessionLogsActionTest.java#L125) <br> - [New test 3](https://github.com/DD2480G19/teammates/blob/2432d48f8c32892ceecd329a2cf5d323be8513ca/src/test/java/teammates/ui/webapi/GetFeedbackSessionLogsActionTest.java#L135) <br> - [New test 4](https://github.com/DD2480G19/teammates/blob/2432d48f8c32892ceecd329a2cf5d323be8513ca/src/test/java/teammates/ui/webapi/GetFeedbackSessionLogsActionTest.java#L144) <br> **Show patch:** [coverage improvement, function 2](https://github.com/DD2480G19/teammates/commit/2432d48f8c32892ceecd329a2cf5d323be8513ca?diff=split) <br> Report of old coverage: [link](improved_coverage_function_2/old_coverage.png) <br> Report of new coverage: [link](improved_coverage_function_2/new_coverage.png) |
 | 3 |  |
-| 4 |  |
+| 4 | **Function**: `SessionResultsData::initForStudent` <br> **Test cases added:** <br>Branch:[coverage improvement, function 4](https://github.com/DD2480G19/teammates/tree/45-coverage-improvement-function-4)<br> - [New test 1](https://github.com/DD2480G19/teammates/blob/b6718cbc8bee9cd044d2a95ea87c989298116d0c/src/test/java/teammates/ui/webapi/GetSessionResultsActionTest.java#L120) <br> - [New test 2](https://github.com/DD2480G19/teammates/blob/b6718cbc8bee9cd044d2a95ea87c989298116d0c/src/test/java/teammates/ui/webapi/GetSessionResultsActionTest.java#L149) <br> **Show patch (from master):** `git diff origin/45-coverage-improvement-function-4` <br> Report of old coverage: [link](improved_coverage/function4/old_coverage.md) <br> Report of new coverage: [link](improved_coverage/function4/new_coverage.md) |
 | 5 |  |
 
 
-## Self-assessment: Way of working
-
-The different states of the Team is seeded, formed, collaborating, performing and adjourned. The seeded and formed states were quickly passed as the team had its first meeting, where the team agreed on a way of working to be adopted in the project. Many of the key practises were suggestion from things that worked good from the previous groups. As of now, the group is working mostly as one cohesive unit, have an open communication where you trust each other, and have started to get to know each other. Therefore, the team is currently in the collaborating state. To reach the next state, the team would need more time to work together. It’s too early to say that the group consistently meets its commitments and that it adapts to the changing contexts, because this is the first deadline together. The whole group agrees that it was easier to get to the collaborating state this time around, as a result of the knowledge gotten from the first groups. The biggest improvement was seen in how the project was structured and what design principles the team wanted to follow.
+## Self-assessment:
+### Way of working
+On the first meeting, the team agreed on a way of working to be adopted in the project. The Principles Established state were mostly checked of by the assignment itself. Many of the key practises were suggestion from things that worked good from the previous groups, and the selected practices and tools was integrated to form a way of working. Quickly the group was in the In Use state where the practises were in use to do real tasks, and was appropriately adapted to the context of the assignment. Later in the assignment, the team had fully moved in to the In Place state, where everyone uses the tools and everyone is involved in the adaptation of the way of working. To move into the Working well, the project would need to be longer for the practises to start to feel natural, and to have time to evaluate the practises to tune them accordingly. The team agrees that is was easier to implement a way of working this time as we all had different experiences from the previous groups. The biggest improvement was seen in how the project was structured and what design principles the team wanted to follow. Now, lessons learned are shared for future assignments.
 
 ## Overall experience
 
