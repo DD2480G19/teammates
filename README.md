@@ -255,6 +255,57 @@ By moving these expression to separate methods, the CC is reduced from 15 to 7, 
 **Refactored version:** [refactoring, function 4](https://github.com/DD2480G19/teammates/tree/78-refactoring-function-4)  
 **Show patch (from master):** `git diff origin/78-refactoring-function-8`  
 
+#### Function 5 : `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion`
+
+**Refactoring plan:**
+
+The following boolean expressions can be refactored into separate private 6 submethods, then called from the original method
+```java
+        if (this.msqChoices.size() != newMsqDetails.msqChoices.size()
+                || !this.msqChoices.containsAll(newMsqDetails.msqChoices)
+                || !newMsqDetails.msqChoices.containsAll(this.msqChoices)) {
+            return true;
+        }
+
+        if (this.generateOptionsFor != newMsqDetails.generateOptionsFor) {
+            return true;
+        }
+
+        if (this.maxSelectableChoices == Const.POINTS_NO_VALUE
+                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE) {
+            // Delete responses if max selectable restriction is newly added
+            return true;
+        }
+
+        if (this.minSelectableChoices == Const.POINTS_NO_VALUE
+                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE) {
+            // Delete responses if min selectable restriction is newly added
+            return true;
+        }
+
+        if (this.minSelectableChoices != Const.POINTS_NO_VALUE
+                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE
+                && this.minSelectableChoices < newMsqDetails.minSelectableChoices) {
+            // A more strict min selectable choices restriction is placed
+            return true;
+        }
+
+        if (this.maxSelectableChoices != Const.POINTS_NO_VALUE
+                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE
+                && this.maxSelectableChoices > newMsqDetails.maxSelectableChoices) {
+            // A more strict max selectable choices restriction is placed
+            return true;
+        }
+```
+If these blocks of code are put into other methods, the CC are reduced from 17 to 11, which is a reduction by ~ 35.3%. This was verfied by using `lizard` before and after the refactoring.
+
+**Refactored version:** [refactoring, function 5](https://github.com/DD2480G19/teammates/tree/75-refactoring-function-1)  
+**Show patch (from master):** `git diff origin/75-refactoring-function-1`  
+
+
+
+
+
 ## Coverage
 <img src="https://y.yarn.co/3d5ad220-edc8-4601-b220-87e1ad9f5e2c_text.gif">
 
@@ -279,7 +330,7 @@ What kinds of constructs does your tool support, and how accurate is its output?
 | 2 | **Function**: `GetFeedbackSessionLogsAction::execute` <br> **Branch:** [manual instrumentation, function 2](https://github.com/DD2480G19/teammates/tree/38-manual-instrumentation-function-2) <br> Git command that is used to obtain the patch (from master): `git diff 38-manual-instrumentation-function-2`|
 | 3 | **Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br> **Branch**: [manual instrumentation, function 3](https://github.com/DD2480G19/teammates/tree/39-branch-coverage-by-manual-instrumentation-function-3) <br> **Show patch (from master):**: `git diff origin/39-branch-coverage-by-manual-instrumentation-function-3` |
 | 4 | **Function**: `SessionResultData::initForStudent` <br> **Branch:** [manual instrumentation, function 4](https://github.com/DD2480G19/teammates/tree/40-manual-instrumentation-function-4) <br> **Show patch (from master):** `git diff origin/40-manual-instrumentation-function-4 src/main/java/teammates/ui/output/SessionResultsData.java` |
-| 5 | **Function**: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion` <br> **Branch:** [manual instrumentation, function 5](https://github.com/DD2480G19/teammates/tree/41-branch-coverage-by-manual-instrumentation-function-5) <br> Git command that is used to obtain the patch (from master): `git diff 41-branch-coverage-by-manual-instrumentation-function-5` |
+| 5 | **Function**: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion` <br> **Branch:** [manual instrumentation, function 5](https://github.com/DD2480G19/teammates/tree/41-branch-coverage-by-manual-instrumentation-function-5) <br> Git command that is used to obtain the patch (from master): `git diff origin/41-branch-coverage-by-manual-instrumentation-function-5` |
 
 ### Evaluation
 
