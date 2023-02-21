@@ -297,10 +297,10 @@ The following boolean expressions can be refactored into separate private 6 subm
             return true;
         }
 ```
-If these blocks of code are put into other methods, the CC are reduced from 17 to 11, which is a reduction by ~ 35.3%. This was verfied by using `lizard` before and after the refactoring.
+If these blocks of code are put into other methods, the CC are reduced from 15 to 7, which is a reduction by ~ 55%. This was verfied by using `lizard` before and after the refactoring.
 
-**Refactored version:** [refactoring, function 5](https://github.com/DD2480G19/teammates/tree/75-refactoring-function-1)  
-**Show patch (from master):** `git diff origin/75-refactoring-function-1`  
+**Refactored version:** [refactoring, function 5](https://github.com/DD2480G19/teammates/tree/79-refactor-function-5)  
+**Show patch (from master):** `git diff origin/79-refactor-function-5`  
 
 
 
