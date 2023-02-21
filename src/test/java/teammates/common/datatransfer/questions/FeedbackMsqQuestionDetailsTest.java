@@ -535,6 +535,8 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.peekBranchCovering();
     }
 
+    //---------------------------------Added_Tests----------------------------------------------------------------------
+
     @Test
     public void testShouldChangesRequireResponseDeletion_restrictMinSelectableChoices_shouldReturnTrue(){
         System.out.println("Executing test 9: ");
@@ -583,8 +585,8 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         newMsqDetails.setOtherEnabled(false);
 
         assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
-        newMsqDetails.peekBranchCovering();
-    }
+        msqDetails.peekBranchCovering();
+    }   
 
     @Test
     public void testShouldChangesRequireResponseDeletion_maxSelectableBigger_shouldReturnTrue() {
@@ -603,5 +605,5 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.peekBranchCovering();
     }
 
-
+   //-------------------------------------------------------------------------------------------------------------------
 }
