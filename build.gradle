@@ -527,7 +527,7 @@ task componentTests(type: Test) {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
-        events "passed"
+        events "passed", "standard_out"
     }
 }
 
