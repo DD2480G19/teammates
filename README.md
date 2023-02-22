@@ -232,6 +232,55 @@ Looking at the function, we can see that the function basically does two things.
 **Refactored version:** [refactoring, function 2](https://github.com/DD2480G19/teammates/tree/76-refactoring-function-2-refactoring)  
 **Show patch:** [link to patch, function 2](https://github.com/DD2480G19/teammates/commit/a92a2c97bc196a5eb97d3be6f291d8d8d1faa081?diff=split)
 
+
+#### Function 3 : `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions`
+
+**Refactoring plan**:
+The block that `Checks whether update is needed` (see *Code block 1* below) could be refactored into a separate method, which would reduce the CC by 3. The same goes for the block that `Obtains the largest unused rank` (see *Code block 2* below) – separating that reduces the CC by 5. Together with the first refactoring, we have a total reduction of 50%, from 16 to 8 (verified by `lizard`). `getUpdateOptionsForRankRecipientQuestions` is still the most complex method of `FeedbackRankRecipientsResponseDetails`.
+
+##### *Code block 1*
+```java
+44:        // Checks whether update is needed.
+45:        for (FeedbackResponseAttributes response : responses) {
+46:            details = response.getResponseDetails();
+47:            if (!(details instanceof FeedbackRankRecipientsResponseDetails)) {
+48:                continue;
+49:            }
+50:            responseDetails = (FeedbackRankRecipientsResponseDetails) details;
+51:            answer = responseDetails.getAnswer();
+52:            if (answer > maxRank) {
+53:                isUpdateNeeded = true;
+54:                break;
+55:            }
+56:        }
+```
+##### *Code block 2*
+```java
+63:            // Obtains the largest unused rank.
+64:            for (FeedbackResponseAttributes response : responses) {
+65:                details = response.getResponseDetails();
+66:                if (!(details instanceof FeedbackRankRecipientsResponseDetails)) {
+67:                    continue;
+68:                }
+69:                responseDetails = (FeedbackRankRecipientsResponseDetails) details;
+70:                answer = responseDetails.getAnswer();
+71:                if (answer <= maxRank) {
+72:                    isRankUsed[answer - 1] = true;
+73:                }
+74:            }
+75:            for (int i = maxRank - 1; i >= 0; i--) {
+76:                if (!isRankUsed[i]) {
+77:                    maxUnusedRank = i + 1;
+78:                    break;
+79:                }
+80:            }
+```
+
+**Refactored version**: [refactoring, function 3](https://github.com/DD2480G19/teammates/tree/77-refactoring-function-3-refactoring)
+
+**Show patch (from master)**: `git diff origin/77-refactoring-function-3-refactoring`
+
+
 #### Function 4 : `SessionResultsData::initForStudent`
 
 **Refactoring plan:**
