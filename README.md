@@ -349,7 +349,7 @@ The following boolean expressions can be refactored into separate private 6 subm
 If these blocks of code are put into other methods, the CC are reduced from 15 to 7, which is a reduction by ~ 55%. This was verfied by using `lizard` before and after the refactoring.
 
 **Refactored version:** [refactoring, function 5](https://github.com/DD2480G19/teammates/tree/79-refactor-function-5)  
-**Show patch (from master):** `git diff origin/79-refactor-function-5`  
+**Show patch:** [link to patch, function 5](https://github.com/TEAMMATES/teammates/commit/97b72f916bce32d6114ba8f897439c708ada8d57)
 
 
 
@@ -379,7 +379,7 @@ What kinds of constructs does your tool support, and how accurate is its output?
 | 2 | **Function**: `GetFeedbackSessionLogsAction::execute` <br> **Branch:** [manual instrumentation, function 2](https://github.com/DD2480G19/teammates/tree/38-manual-instrumentation-function-2) <br> **Show patch:** [Link to patch](https://github.com/DD2480G19/teammates/commit/00e977827585d142ce45e0807d877a8ec2cc23be?diff=split)|
 | 3 | **Function**: `FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions` <br> **Branch**: [manual instrumentation, function 3](https://github.com/DD2480G19/teammates/tree/39-branch-coverage-by-manual-instrumentation-function-3) <br> **Show patch (from master):**: `git diff origin/39-branch-coverage-by-manual-instrumentation-function-3` |
 | 4 | **Function**: `SessionResultData::initForStudent` <br> **Branch:** [manual instrumentation, function 4](https://github.com/DD2480G19/teammates/tree/40-manual-instrumentation-function-4) <br> **Show patch (from master):** `git diff origin/40-manual-instrumentation-function-4 src/main/java/teammates/ui/output/SessionResultsData.java` |
-| 5 | **Function**: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion` <br> **Branch:** [manual instrumentation, function 5](https://github.com/DD2480G19/teammates/tree/41-branch-coverage-by-manual-instrumentation-function-5) <br> Git command that is used to obtain the patch (from master): `git diff origin/41-branch-coverage-by-manual-instrumentation-function-5` |
+| 5 | **Function**: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion` <br> **Branch:** [manual instrumentation, function 5](https://github.com/DD2480G19/teammates/tree/41-branch-coverage-by-manual-instrumentation-function-5) <br> **Show patch:** [Rewriting if statements](https://github.com/TEAMMATES/teammates/commit/c10c3722e9f2ece0c4960c4f2bcbcaab3afbb055) **Show patch:** [Storing visited branches](https://github.com/TEAMMATES/teammates/commit/432f589b0192f9a1f011202524952c2f24de6705)|
 
 ### Evaluation
 
