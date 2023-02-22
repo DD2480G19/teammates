@@ -431,3 +431,30 @@ On the first meeting, the team agreed on a way of working to be adopted in the p
 Is there something special you want to mention here?
 
 <img src="https://media.tenor.com/ADRUFfqOs9kAAAAC/i-learned-so-much-brad-mondo.gif">
+
+## Aims for P+
+### 1. Extra tests
+Three of the group members have written extra tests:
+- Markus wrote the tests for function 1 (`SessionResultsData::buildSingleResponseForStudent`)
+- Edvin wrote the tests for function 2 (`GetFeedbackSessionLogsAction::execute`)
+- Peter wrote the tests for function 5 (`FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion`)
+
+### 2. Issue tracker for systematic work
+We've used the issue tracker synced to a Github [project board](https://github.com/orgs/DD2480G19/projects/1/views/1) to manage our work.
+
+### 3. Carry out some of Task 3
+All team members have refactored their functions according to their respective plans.
+
+### 5. Something extraordinary
+Although not all team members managed to find ways of constructing the extra tests for their functions, we feel like our way of working has been incredibly well structured, including:
+
+- A Github [organization](https://github.com/DD2480G19) to allow all team members to manage the repositories
+- A Github project board to sync and manage all our issues
+- A well structured Discord server with channels for various project-related topics such as:
+    - announcements
+    - important dates (meetings, deadlines, etc.)
+    - help
+    - contact information
+    - git conventions (commits, branches, issues, etc.)
+
+By utilizing these tools, we've achieved a very productive workflow with regular meetings discussing work plans and things we need help with. 
