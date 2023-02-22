@@ -34,6 +34,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
         // ------------------ Added for branch coverage ----------------
         // ---- REACHED_BRANCHES[i] = true means branch i is reached ----
         if (maxRank <= 0) {
+            // Requirement 1: If the maximum rank of a response is <= 0, the responses should not be updated
             REACHED_BRANCHES[0] = true; // (maxRank <= 0) == true
             return updateOptions;
         }
@@ -52,6 +53,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
             REACHED_BRANCHES[2] = true; // Enters for loop
             details = response.getResponseDetails();
             if (!(details instanceof FeedbackRankRecipientsResponseDetails)) {
+                // Requirement 2: If none of the feedback response details are feedback rank recipients response details, update is not needed
                 REACHED_BRANCHES[4] = true; // (!(details [...])) == true
                 continue;
             }

@@ -26,6 +26,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.AccountAttributes.UpdateOptions;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -347,8 +348,37 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 giverResponseMap.put(student.getEmail(), responsesFromStudent);
             }
         }
+
+        // ///////////////////////// Added tests for coverage improvement ///////////////////////////
+        StudentAttributes student = questionTypeBundle.students.get("student1InCourse1");
+        List<FeedbackResponseAttributes> responsesInput = frLogic.getFeedbackResponsesFromGiverForQuestion(
+                nonDistinctRankQuestion.getId(), student.getEmail());
+
+        // ------------------------------ Added test for Requirement 1 ------------------------------
+        // ----- If the maximum rank of a response is <= 0, the responses should not be updated -----
+        List<FeedbackResponseAttributes.UpdateOptions> responsesOutput1 = FeedbackRankRecipientsResponseDetails.getUpdateOptionsForRankRecipientQuestions(responsesInput, 0);
+        assertEquals(new ArrayList<>(), responsesOutput1);
+        // ------------------------------------------------------------------------------------------
+
+        // ------------------------------ Added test for Requirement 2 ------------------------------
+        // ----- If none of the feedback response details are feedback rank recipients response details, update is not needed -----
+        // FeedbackResponseAttributes response = responsesInput.get(0);
+        List<FeedbackResponseAttributes> responsesInput2 = new ArrayList<>();
+        
+        responsesInput2.add(null);
+        List<FeedbackResponseAttributes.UpdateOptions> responsesOutput2 = FeedbackRankRecipientsResponseDetails.getUpdateOptionsForRankRecipientQuestions(responsesInput2, 0);
+        assertEquals(new ArrayList<>(), responsesOutput2);
+        // ------------------------------------------------------------------------------------------
+
+        // ------------------------------ Added test for Requirement 3 ------------------------------
+        // ------------------------------------------------------------------------------------------
+
+        // ------------------------------ Added test for Requirement 4 ------------------------------
+        // ------------------------------------------------------------------------------------------
+
+        // //////////////////////////////////////////////////////////////////////////////////////////
+
         // Print reached branches in FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions
-        /*
         System.err.println("\n-----------------------------------------------------------------------------------------------------");
         System.err.println("Reached branches in FeedbackRankRecipientsResponseDetails::getUpdateOptionsForRankRecipientQuestions:");
         int count = 0;
@@ -358,10 +388,9 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 System.err.print(i + " ");
             }
         }
-        System.err.println("(branch ID's range from 1 to 32)");
+        System.err.println("(branch ID's range from 0 to 31)");
         System.err.println("\nBranch coverage: \n" + count + "/" + FeedbackRankRecipientsResponseDetails.REACHED_BRANCHES.length);
         System.err.println("-----------------------------------------------------------------------------------------------------");
-         */
     }
 
     private boolean areRankResponsesConsistent(List<FeedbackResponseAttributes> responses, int maxRank) {
