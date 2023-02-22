@@ -439,6 +439,8 @@ Three of the group members have written extra tests:
 - Edvin wrote the tests for function 2 (`GetFeedbackSessionLogsAction::execute`)
 - Peter wrote the tests for function 5 (`FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion`)
 
+Although, extensive efforts were made to create extra tests for function 3 and 4 as well. After the individuals worked on the methods by themselves without success, all of the group members tried to solve it together. We spent many, many hours, but unfortunately, none of us could manage to create the additional tests within the given timeframe. This was for example due to: bad or non-existing documentation of the program; intricate methods that had a multitude of nested checks, method calls, etc; branches that couldn't be reached; and more. Therefore, we think we might deserve credits for this P+ task anyway. We gladly motivate this further, in that case contact [linneag2@kth.se](mailto:linneag2@kth.se).
+
 ### 2. Issue tracker for systematic work
 We've used the issue tracker synced to a Github [project board](https://github.com/orgs/DD2480G19/projects/1/views/1) to manage our work.
 
@@ -455,6 +457,6 @@ Although not all team members managed to find ways of constructing the extra tes
     - important dates (meetings, deadlines, etc.)
     - help
     - contact information
-    - git conventions (commits, branches, issues, etc.)
+    - Git conventions (commits, branches, issues, etc.)
 
 By utilizing these tools, we've achieved a very productive workflow with regular meetings discussing work plans and things we need help with. 
