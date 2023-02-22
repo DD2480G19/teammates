@@ -359,11 +359,7 @@ If these blocks of code are put into other methods, the CC are reduced from 15 t
 <img src="https://y.yarn.co/3d5ad220-edc8-4601-b220-87e1ad9f5e2c_text.gif">
 
 ### Tools
-
->**TODO:**
->Document your experience in using a "new"/different coverage tool.
-How well was the tool documented? Was it possible/easy/difficult to
-integrate it with your build environment?
+The project we chose had already integrated a coverage-tool called "Jacoco", and in the [project documentation](https://teammates.github.io/teammates/development.html#testing), it is documented how to generate coverage reports. As the tool was already integrated in their gradle build script it was easy to run once we got the tests up and running. Jacoco also generates easily digestible html reports of the results which were helpful when analysing the results.
 
 ### Your own coverage tool
 
