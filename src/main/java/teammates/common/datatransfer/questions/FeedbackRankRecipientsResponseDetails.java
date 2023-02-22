@@ -34,7 +34,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
         // ------------------ Added for branch coverage ----------------
         // ---- REACHED_BRANCHES[i] = true means branch i is reached ----
         if (maxRank <= 0) {
-            // Requirement 1: If the maximum rank of a response is <= 0, the responses should not be updated
+            // Requirement 1 (branch 0): If the maximum rank of a response is <= 0, the responses should not be updated
             REACHED_BRANCHES[0] = true; // (maxRank <= 0) == true
             return updateOptions;
         }
@@ -53,7 +53,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
             REACHED_BRANCHES[2] = true; // Enters for loop
             details = response.getResponseDetails();
             if (!(details instanceof FeedbackRankRecipientsResponseDetails)) {
-                // Requirement 2: If none of the feedback response details are feedback rank recipients response details, update is not needed
+                // Requirement 2 (branch 4, 12): If none of the feedback response details are feedback rank recipients response details, update is not needed
                 REACHED_BRANCHES[4] = true; // (!(details [...])) == true
                 continue;
             }
@@ -111,6 +111,7 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
                 REACHED_BRANCHES[17] = true; // Exits for loop
             }
 
+            // Requirement 3 (branch 21): maxUnusedRank <= 0 gives assertion error
             REACHED_BRANCHES[21] = true; // Assertion false (throw)
             assert maxUnusedRank > 0; // if update is needed, there must be at least one unused rank
             REACHED_BRANCHES[20] = true; // Assertion true
@@ -128,10 +129,10 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
                         answer--;
                         responseDetails.setAnswer(answer);
                         updatedResponses.add(response);
-                    } else {
+                    } else { // Requirement 4 (branch 27): If answer <= maxUnusedRank, the answer is decremented by 1 and response is added to updated responses
                         REACHED_BRANCHES[27] = true; // (answer > maxUnusedRank) == false
                     }
-                    if (answer > maxRank) {
+                    if (answer > maxRank) { // Requirement 5 (branch 28): If answer > maxRank for any response, update is needed
                         REACHED_BRANCHES[28] = true; // (answer > maxRank) == true
                         isUpdateNeeded = true; // sets the flag to true if the updated rank is still invalid
                     } else {

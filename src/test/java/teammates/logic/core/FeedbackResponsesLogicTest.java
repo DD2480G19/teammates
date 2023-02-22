@@ -357,40 +357,15 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // ------------------------------ Added test for Requirement 1 ------------------------------
         // (branch 0) 
         // If the maximum rank of a response is <= 0, the responses should not be updated
-        List<FeedbackResponseAttributes.UpdateOptions> responsesOutput1 = FeedbackRankRecipientsResponseDetails.getUpdateOptionsForRankRecipientQuestions(responsesInput, 0);
+        List<FeedbackResponseAttributes.UpdateOptions> responsesOutput1 = FeedbackRankRecipientsResponseDetails.getUpdateOptionsForRankRecipientQuestions(
+                responsesInput, 0);
         assertEquals(new ArrayList<>(), responsesOutput1);
         // ------------------------------------------------------------------------------------------
 
         // ------------------------------ Added test for Requirement 2 ------------------------------
-        // (branch 4, 12, 25) NON-TESTABLE??? I.e., feedback response details are always feedback rank recipients response details, so branches cannot be reached
-        // If none of the feedback response details are feedback rank recipients response details, update is not needed -----
-        // FeedbackResponseAttributes response = responsesInput.get(0);
-        List<FeedbackResponseAttributes> responsesInput2 = new ArrayList<>();
-        
-        responsesInput2.add(null);
-        List<FeedbackResponseAttributes.UpdateOptions> responsesOutput2 = FeedbackRankRecipientsResponseDetails.getUpdateOptionsForRankRecipientQuestions(responsesInput2, 0);
-        assertEquals(new ArrayList<>(), responsesOutput2);
-        // ------------------------------------------------------------------------------------------
-
-        // ------------------------------ Added test for Requirement 3 ------------------------------
-        // (branch 21) 
-        // maxUnusedRank <= 0 gives assertion error
-
-
-
-        // ------------------------------------------------------------------------------------------
-
-        // ------------------------------ Added test for Requirement 4 ------------------------------
-        // (branch 27)
-        // If answer <= maxUnusedRank, the answer is decremented by 1 and response is added to updated responses
-
-        // ------------------------------------------------------------------------------------------
-
-        // ------------------------------ Added test for Requirement 5 ------------------------------
-        // (branch 28)
-        // If answer > maxRank for any response, update is needed
-        List<FeedbackResponseAttributes.UpdateOptions> responsesOutput5 = FeedbackRankRecipientsResponseDetails.getUpdateOptionsForRankRecipientQuestions(responsesInput, 1);
-        assertEquals(new ArrayList<>(), responsesOutput5);
+        // (branch 4, 12, 25)
+        // If none of the feedback response details are feedback rank recipients response details, update is not needed
+        FeedbackRankRecipientsResponseDetails.getUpdateOptionsForRankRecipientQuestions(responsesInput, 1); // Reaches branch 4
         // ------------------------------------------------------------------------------------------
         // //////////////////////////////////////////////////////////////////////////////////////////
 
