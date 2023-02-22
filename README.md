@@ -18,15 +18,6 @@ This is the repository for *Assignment: Code Complexity, Coverage* in the course
 
 
 ## Onboarding experience
-
->**TODO (/check that this is done):**
-Did it build and run as documented?
-See the assignment for details; if everything works out of the box,
-there is no need to write much here. If the first project(s) you picked
-ended up being unsuitable, you can describe the "onboarding experience"
-for each project, along with reason(s) why you changed to a different one.
-
-
 The onboarding was pretty straight forward. The project's README included an easily accessible URL to "Setting Up" instructions, and elaborate documentation on an external website. The repository also contained all documentation in a directory: `docs`. The project's dependencies required some of us to downgrade our Java version, however, the instructions to configure the project accordingly were clearly described in the documentation.
 
 The building process was run by first executing `./gradlew createConfigs`, then `gradle build`, which automatically installed the necessary components, without errors. If one wanted to install dependencies for front-end development, the steps for that were also clearly described in the documentation.
@@ -40,15 +31,6 @@ In conclusion, the onboarding experience was smooth and we plan to continue with
 <p align="center">
     <img src="https://media2.giphy.com/media/WRQBXSCnEFJIuxktnw/giphy.gif">
 </p>
-
->**TODO (/check that this is done):**
->1. What are your results for ten complex functions
->    - Did all methods (tools vs. manual count) get the same result?
->    - Are the results clear?
->2. Are the functions just complex, or also long?
->3. What is the purpose of the functions?
->4. Are exceptions taken into account in the given *measurements?
->5. Is the documentation clear w.r.t. all the possible outcomes?
 
 We used `lizard` to inspect the complexity of the repository. The results were collected to google [sheets](https://docs.google.com/spreadsheets/d/1pyIgCouwoHa9f4Q0DBhj_9gXWa7iI7MTI_X0eoj8KbU/edit#gid=1684196533). From the analyzed methods, the following ten methods were deemed sufficiently complex:
 
@@ -79,14 +61,6 @@ Out of these, the following five methods were chosen for manual complexity calcu
 
 
 ### Questions answered for the 10 selected high complexity functions
-1. What are your results? Did everyone get the same result? Is there something that is unclear? If you have a tool, is its result the same as yours?
-2. Are the functions/methods with high CC also very long in terms of LOC?
-3. What is the purpose of these functions? Is it related to the high CC? 
-4. If your programming language uses exceptions: 
-   - Are they taken into account by the tool? 
-   - If you think of an exception as another possible branch (to the catch block or the end of the function), how is the CC affected? 
-5. Is the documentation of the function clear about the different possible outcomes induced by different branches taken?
-
 #### Function 1: `BasicFeedbackSubmissionAction::getRecipientSection`
 1. This function's complexity was not calculated by hand.
 2. The number of LOC is not significantly high.
@@ -185,12 +159,6 @@ Out of these, the following five methods were chosen for manual complexity calcu
 
 ## Refactoring
 <img src="https://media.tenor.com/eQ8OVVGD5rIAAAAC/refactor.gif">
-
->**TODO:**
->Plan for refactoring complex code:
-Estimated impact of refactoring (lower CC, but other drawbacks?).
-Carried out refactoring (optional, P+):
-git diff ...
 
 #### Function 1 : `SessionResultsData::buildSingleResponseForStudent`
 
@@ -363,12 +331,6 @@ The project we chose had already integrated a coverage-tool called "Jacoco", and
 
 ### Your own coverage tool
 
->**TODO:**
->Show a patch (or link to a branch) that shows the instrumented code to gather coverage measurements.
-The patch is probably too long to be copied here, so please add the git command that is used to obtain the patch instead:
-git diff ...
-What kinds of constructs does your tool support, and how accurate is its output?
-
 | # | Patch
 |---|------------------------------------------------------------------------------------------------------------------------------------------|
 | 1 | **Function**: `SessionResultsData::buildSingleResponseForStudent` <br> **Branch:** [manual instrumentation, function 1](https://github.com/DD2480G19/teammates/tree/37-manual-instrumentation-function-1) <br> **Show patch (from master):** `git diff origin/37-manual-instrumentation-function-1` |
@@ -378,11 +340,6 @@ What kinds of constructs does your tool support, and how accurate is its output?
 | 5 | **Function**: `FeedbackMsqQuestionDetails::shouldChangesRequireResponseDeletion` <br> **Branch:** [manual instrumentation, function 5](https://github.com/DD2480G19/teammates/tree/41-branch-coverage-by-manual-instrumentation-function-5) <br> Git command that is used to obtain the patch (from master): `git diff origin/41-branch-coverage-by-manual-instrumentation-function-5` |
 
 ### Evaluation
-
->**TODO:**
->1. How detailed is your coverage measurement?
->2. What are the limitations of your own tool?
->3. Are the results of your tool consistent with existing coverage tools?
 
 | # | Evaluation
 |---|------------------------------------------------------------------------------------------------------------------------------------------|
@@ -394,15 +351,6 @@ What kinds of constructs does your tool support, and how accurate is its output?
 
 ## Coverage improvement
 <img src="https://media.tenor.com/LqG262WEznAAAAAC/that-is-progress-dan-levy.gif">
-
->**TODO:**
->Show the comments that describe the requirements for the coverage.
-Report of old coverage: [link]
-Report of new coverage: [link]
-Test cases added:
-git diff ...
-Number of test cases added: two per team member (P) or at least four (P+).
-
 
 | # | Patch
 |---|------------------------------------------------------------------------------------------------------------------------------------------|
@@ -419,13 +367,6 @@ Number of test cases added: two per team member (P) or at least four (P+).
 ### Way of working
 On the first meeting, the team agreed on a way of working to be adopted in the project. The Principles Established state were mostly checked of by the assignment itself. Many of the key practises were suggestion from things that worked good from the previous groups, and the selected practices and tools was integrated to form a way of working. Quickly the group was in the In Use state where the practises were in use to do real tasks, and was appropriately adapted to the context of the assignment. Later in the assignment, the team had fully moved in to the In Place state, where everyone uses the tools and everyone is involved in the adaptation of the way of working. To move into the Working well, the project would need to be longer for the practises to start to feel natural, and to have time to evaluate the practises to tune them accordingly. The team agrees that is was easier to implement a way of working this time as we all had different experiences from the previous groups. The biggest improvement was seen in how the project was structured and what design principles the team wanted to follow. Now, lessons learned are shared for future assignments.
 
-## Overall experience
-
->**TODO:**
->What are your main take-aways from this project? What did you learn?
-Is there something special you want to mention here?
-
-<img src="https://media.tenor.com/ADRUFfqOs9kAAAAC/i-learned-so-much-brad-mondo.gif">
 
 ## Aims for P+
 ### 1. Extra tests
